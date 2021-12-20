@@ -14,6 +14,25 @@ _wt_prune() {
     git worktree prune
 }
 
+_move_to_bare_repo() {
+    local IS_BARE_REPO=$(_is_bare_repo)
+
+    if [ $IS_BARE_REPO = "true" ]; then
+        echo "Found bare repository: $PWD"
+        return 0
+    elif [ $PWD = "/" ]; then
+        echo "There is not a bare repository" > /dev/stderr
+        return 1
+    fi
+
+    pushd .. > /dev/null
+    _move_to_bare_repo
+}
+
+_is_bare_repo() {
+    echo $(eval git rev-parse --is-bare-repository)
+}
+
 wt() {
     if [ -z $1 ]; then
         _help
