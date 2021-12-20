@@ -1,18 +1,18 @@
 #!/usr/bin/env zsh
 
-help() {
+_help() {
     echo "Usage:"
     echo -e "\twt list: List details of each working tree"
 }
 
-wt_list() {
+_wt_list() {
     git worktree list
 }
 
 wt() {
     if [ -z $1 ]; then
-        help
+        _help
     elif [ $1 = "list" ]; then
-        wt_list
+        _wt_list
     fi
 }
