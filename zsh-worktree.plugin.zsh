@@ -14,6 +14,15 @@ _wt_prune() {
     git worktree prune
 }
 
+# TODO: i need to revisit this method
+_bare_repo_fetch() {
+    # set config so we can make the fetch
+    git config remote.origin.fetch 'refs/heads/*:refs/heads/*'
+    git fetch
+    # undo
+    git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
+}
+
 _move_to_bare_repo() {
     local IS_BARE_REPO=$(_is_bare_repo)
 
