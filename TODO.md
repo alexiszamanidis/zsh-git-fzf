@@ -1,4 +1,4 @@
-1. Move back until you find a bare repository + Create a worktree + Run script for setting up the project
+1. Move back until you find a bare repository + Create a worktree + Run script for setting up the project. We should pass the script by absolute path or assume that it will be in the repository with specific name
 2. Remove worktree + prune after deletion
 3. Refactor \_bare_repo_fetch method
 
