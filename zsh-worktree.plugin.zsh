@@ -8,8 +8,17 @@ _help() {
     echo -e "\twt add <worktree-name>: Create new working tree"
 }
 
+# TODO Revisit this method
+# Probably I need to create a script to install fzf
+# In order for someone to use this method, he needs to have installed FZF
 _wt_list() {
-    git worktree list
+    local WORKTREE=$(git worktree list | fzf)
+
+    local WORKTREE_PATH=$(echo $WORKTREE | awk '{print $1;}')
+    local WORKTREE_COMMIT=$(echo $WORKTREE | awk '{print $2;}')
+    local WORKTREE_BRANCH=$(echo $WORKTREE | awk '{print $3;}')
+
+    pushd $WORKTREE_PATH > /dev/null
 }
 
 _wt_prune() {
@@ -21,7 +30,7 @@ _wt_add() {
 
     git worktree add $1
 
-    cd $1
+    pushd $1 > /dev/null
 }
 
 _wt_fetch() {
@@ -54,6 +63,10 @@ _move_to_bare_repo() {
 
     pushd .. > /dev/null
     _move_to_bare_repo
+}
+
+_get_current_folder_name() {
+    echo $(eval basename $PWD)
 }
 
 _is_bare_repo() {
