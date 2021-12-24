@@ -39,11 +39,16 @@ _wt_add() {
 }
 
 _wt_fetch() {
+    local HOLD_PATH=$PWD
+
     if ! _move_to_bare_repo; then
+        pushd $HOLD_PATH > /dev/null
         return 1
     fi
 
     _bare_repo_fetch
+
+    pushd $HOLD_PATH > /dev/null
 }
 
 # TODO: i need to revisit this method
@@ -62,7 +67,6 @@ _move_to_bare_repo() {
         echo "Found bare repository: $PWD"
         return 0
     elif [ $PWD = "/" ]; then
-        _popd_until_stack_is_empty
         echo "There is not a bare repository" > /dev/stderr
         return 1
     fi
@@ -71,6 +75,7 @@ _move_to_bare_repo() {
     _move_to_bare_repo
 }
 
+# TODO refactor and use this function instead of holding the path(e.g. HOLD_PATH)
 _popd_until_stack_is_empty() {
     while (( $? == 0 )); do popd; done
 }
