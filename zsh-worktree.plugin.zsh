@@ -14,6 +14,12 @@ _help() {
 _wt_list() {
     local WORKTREE=$(git worktree list | fzf)
 
+    # if the use exited fzf without choosing a worktree
+    if [ -z $WORKTREE ]
+    then
+        return 0
+    fi
+
     local WORKTREE_PATH=$(echo $WORKTREE | awk '{print $1;}')
     local WORKTREE_COMMIT=$(echo $WORKTREE | awk '{print $2;}')
     local WORKTREE_BRANCH=$(echo $WORKTREE | awk '{print $3;}')
