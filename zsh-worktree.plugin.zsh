@@ -26,7 +26,9 @@ _wt_prune() {
 }
 
 _wt_add() {
-    _wt_fetch
+    if ! _wt_fetch; then
+        return 1
+    fi
 
     git worktree add $1
 
@@ -35,7 +37,7 @@ _wt_add() {
 
 _wt_fetch() {
     if ! _move_to_bare_repo; then
-        return 0
+        return 1
     fi
 
     _bare_repo_fetch
@@ -57,12 +59,17 @@ _move_to_bare_repo() {
         echo "Found bare repository: $PWD"
         return 0
     elif [ $PWD = "/" ]; then
+        _popd_until_stack_is_empty
         echo "There is not a bare repository" > /dev/stderr
         return 1
     fi
 
     pushd .. > /dev/null
     _move_to_bare_repo
+}
+
+_popd_until_stack_is_empty() {
+    while (( $? == 0 )); do popd; done
 }
 
 _get_current_folder_name() {
