@@ -8,9 +8,6 @@ _help() {
     echo -e "\twt add <worktree-name>: Create new working tree"
 }
 
-# TODO Revisit this method
-# Probably I need to create a script to install fzf
-# In order for someone to use this method, he needs to have installed FZF
 _wt_list() {
     local WORKTREE=$(git worktree list | fzf)
 
