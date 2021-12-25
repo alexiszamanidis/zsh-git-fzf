@@ -11,8 +11,10 @@
 
 -   Make this plugin work for bare repositories
 -   Comment out current editor implementation
+-   Run script with specific name in the working tree
 
 Second phase
 
 -   Make this plugin work for non-bare repositories
 -   Stable Editor implementation
+-   Pass script as an argument. This script will be executed after the creation of the working tree.
