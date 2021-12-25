@@ -6,6 +6,7 @@ _help() {
     echo -e "\twt prune: Prune working tree information"
     echo -e "\twt fetch: Fetch branches from the bare repository"
     echo -e "\twt add <worktree-name>: Create new working tree"
+    echo -e "\twt remove <worktree-name>: Remove a working tree"
 }
 
 _wt_list() {
@@ -28,10 +29,41 @@ _wt_prune() {
     git worktree prune
 }
 
+_wt_remove() {
+    local WORKTREE_REMOVE_OUTPUT=$(git worktree remove $1 2>&1)
+
+    # if the worktree was removed successfully
+    if [ -z $WORKTREE_REMOVE_OUTPUT ]
+    then
+        _wt_prune
+        return 0
+    fi
+
+    echo $WORKTREE_REMOVE_OUTPUT
+
+    local UNTRACKED_OR_MODIFIED_FILES="fatal: '$1' contains modified or untracked files, use --force to delete it"
+
+    if [ $WORKTREE_REMOVE_OUTPUT != $UNTRACKED_OR_MODIFIED_FILES ]; then
+        return 0
+    fi
+
+    read "response?Force delete? [Y/n]"
+    response=${response:l} #tolower
+    if [[ $response =~ ^(yes|y| ) ]] || [[ -z $response ]]; then
+        git worktree remove -f $1
+        _wt_prune
+    fi
+}
+
 _wt_add() {
-    if ! _wt_fetch; then
+    local HOLD_PATH=$PWD
+
+    if ! _move_to_bare_repo; then
+        pushd $HOLD_PATH > /dev/null
         return 1
     fi
+
+    _bare_repo_fetch
 
     git worktree add $1
 
@@ -99,5 +131,9 @@ wt() {
         _wt_fetch
     elif [ $1 = "add" ] && [ $# -eq 2 ]; then
         _wt_add $2
+    elif [ $1 = "remove" ] && [ $# -eq 2 ]; then
+        _wt_remove $2
+    else
+        _help
     fi
 }
