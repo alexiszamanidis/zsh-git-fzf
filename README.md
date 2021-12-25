@@ -22,7 +22,6 @@ plugins=(zsh-worktree)
 ## Requirements for running the plugin
 
 -   fzf
--   vscode(Not required at this point)
 
 There is a ansible task for installing the fzf tool. Also you will need
 
