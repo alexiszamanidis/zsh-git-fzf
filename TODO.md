@@ -10,7 +10,9 @@
 **Design**
 
 -   Make this plugin work for bare repositories
+-   Comment out current editor implementation
 
 Second phase
 
 -   Make this plugin work for non-bare repositories
+-   Stable Editor implementation
