@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+EDITOR=""
+
 _help() {
     echo "Usage:"
     echo -e "\twt list: List details of each working tree"
@@ -7,6 +9,7 @@ _help() {
     echo -e "\twt fetch: Fetch branches from the bare repository"
     echo -e "\twt add <worktree-name>: Create new working tree"
     echo -e "\twt remove <worktree-name>: Remove a working tree"
+    echo -e "\twt editor <your-editor-open-command>: Open working tree. If you want to reset your editor, just run: 'wt editor'"
 }
 
 _wt_list() {
@@ -67,6 +70,16 @@ _wt_add() {
 
     git worktree add $1
 
+    # if there is a custom editor, open the worktree and move back to your path
+    # TODO edge case for vim, which is a terminal editor
+    if [ ! -z $EDITOR ]
+    then
+        eval $EDITOR ./$1
+        pushd $HOLD_PATH > /dev/null
+        return 0
+    fi
+
+    # otherwise move into the worktree
     pushd $1 > /dev/null
 }
 
@@ -120,6 +133,11 @@ _is_bare_repo() {
     echo $(eval git rev-parse --is-bare-repository)
 }
 
+_update_editor() {
+    sed -i "s/EDITOR=\".*/EDITOR=\"$1\"/g" ~/.oh-my-zsh/custom/plugins/zsh-worktree/zsh-worktree.plugin.zsh
+    echo "You editor has been updated successfully. You need to open a new zsh terminal or reload(source again) your .zshrc!"
+}
+
 wt() {
     if [ -z $1 ]; then
         _help
@@ -129,6 +147,8 @@ wt() {
         _wt_prune
     elif [ $1 = "fetch" ]; then
         _wt_fetch
+    elif [ $1 = "editor" ]; then
+        _update_editor $2
     elif [ $1 = "add" ] && [ $# -eq 2 ]; then
         _wt_add $2
     elif [ $1 = "remove" ] && [ $# -eq 2 ]; then
