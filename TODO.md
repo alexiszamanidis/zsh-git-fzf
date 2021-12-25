@@ -5,6 +5,7 @@
 5. Add Docker and Ansible for testing new machine
 6. After cloning the repository, maybe the user should run a 'wt setup' for installing all the dependencies(e.g. vscode, fzf)
 7. Every time a ZSH shell runs, we need to run a 'git fetch' to check if the user needs to 'git pull' our new features/bug fixes etc
+8. Add editor for opening the worktrees
 
 **Design**
 
