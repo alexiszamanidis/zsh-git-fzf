@@ -79,6 +79,13 @@ _wt_add() {
 
     git worktree add $1
 
+    # if there is an installation script, execute it
+    # TODO pass installation script as an argument(absolute path?)
+    if [ -f ./$1/install ]; then
+        chmod +x ./$1/install
+        ./$1/install
+    fi
+
     # if there is a custom editor, open the worktree and move back to your path
     # TODO edge case for vim, which is a terminal editor
     if [ ! -z $EDITOR ]
