@@ -33,12 +33,18 @@ _wt_prune() {
 }
 
 _wt_remove() {
+    local HOLD_PATH=$PWD
+    local WORKTREE_REMOVE_DETAILS=$(git worktree list | grep "/$1 ")
+    local WORKTREE_PATH=$(echo $WORKTREE_REMOVE_DETAILS | awk '{print $1;}')
     local WORKTREE_REMOVE_OUTPUT=$(git worktree remove $1 2>&1)
 
     # if the worktree was removed successfully
     if [ -z $WORKTREE_REMOVE_OUTPUT ]
     then
         _wt_prune
+        if [ $HOLD_PATH = $WORKTREE_PATH ]; then
+            _move_to_bare_repo
+        fi
         return 0
     fi
 
@@ -55,6 +61,9 @@ _wt_remove() {
     if [[ $response =~ ^(yes|y| ) ]] || [[ -z $response ]]; then
         git worktree remove -f $1
         _wt_prune
+        if [ $HOLD_PATH = $WORKTREE_PATH ]; then
+            _move_to_bare_repo
+        fi
     fi
 }
 
