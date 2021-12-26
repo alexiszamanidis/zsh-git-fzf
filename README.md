@@ -4,10 +4,13 @@ Zsh plugin for git worktrees
 
 ## Usage
 
-1. Clone Repository into oh-my-zsh plugins
+1. Install Plugin
 
 ```
-git clone https://github.com/alexiszamanidis/zsh-git-worktree.git ~/.oh-my-zsh/custom/plugins/zsh-git-worktree
+wget -q https://raw.githubusercontent.com/alexiszamanidis/zsh-git-worktree/main/install -O install && \
+chmod +x install && \
+./install && \
+rm -rf ./install
 ```
 
 2.  Add plugin to plugin list
@@ -18,12 +21,6 @@ git clone https://github.com/alexiszamanidis/zsh-git-worktree.git ~/.oh-my-zsh/c
 ```
 plugins=(zsh-git-worktree)
 ```
-
-## Requirements for running the plugin
-
--   fzf
-
-There is a ansible task for installing the fzf tool. Also you will need
 
 ## Test Plugin
 
