@@ -132,6 +132,9 @@ _wt_add() {
     #     eval $EDITOR $NEW_WORKTREE_PATH
     #     return 0
     # fi
+
+    # otherwise move into the worktree
+    pushd $NEW_WORKTREE_PATH > /dev/null
 }
 
 _wt_fetch() {
