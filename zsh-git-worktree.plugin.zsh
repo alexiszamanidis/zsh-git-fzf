@@ -7,7 +7,7 @@ _help() {
     echo -e "\twt list: List details of each working tree"
     echo -e "\twt prune: Prune working tree information"
     echo -e "\twt fetch: Fetch branches from the bare repository"
-    echo -e "\twt add <worktree-name>: Create new working tree"
+    echo -e "\twt add <worktree-name> <(optional-)remote-worktree-name>: Create new working tree"
     echo -e "\twt remove: Remove a working tree"
     # echo -e "\twt editor <your-editor-open-command>: Open working tree. If you want to reset your editor, just run: 'wt editor'"
     echo -e "\twt upgrade: Upgrade zsh-git-worktree plugin"
@@ -92,6 +92,7 @@ _exists_remote_repository() {
 _wt_add() {
     local HOLD_PATH=$PWD
     local BRANCH_NAME=$1
+    local REMOTE_BRANCH_NAME=$2
 
     if ! _move_to_bare_repo; then
         pushd $HOLD_PATH > /dev/null
@@ -109,7 +110,12 @@ _wt_add() {
     if [ $WORKTREE_EXISTS = "true" ]; then
         git worktree add $NEW_WORKTREE_PATH
     else
-        git worktree add -b $BRANCH_NAME $NEW_WORKTREE_PATH
+        if [ ! -z $REMOTE_BRANCH_NAME ]
+        then
+            git worktree add --track -b $BRANCH_NAME $NEW_WORKTREE_PATH origin/$REMOTE_BRANCH_NAME
+        else
+            git worktree add -b $BRANCH_NAME $NEW_WORKTREE_PATH
+        fi
         git push --set-upstream origin $BRANCH_NAME
     fi
 
@@ -208,7 +214,7 @@ wt() {
         _wt_fetch
     # elif [ $OPERATION = "editor" ]; then
     #     _update_editor $2
-    elif [ $OPERATION = "add" ] && [ $# -eq 2 ]; then
+    elif [ $OPERATION = "add" ]; then
         _wt_add ${@:2}
     elif [ $OPERATION = "remove" ]; then
         _wt_remove
