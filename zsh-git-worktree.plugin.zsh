@@ -68,9 +68,14 @@ _wt_remove() {
     fi
 }
 
-# local WORKTREE_EXISTS=$(_exists_remote_repository $BRANCH_NAME)
 _exists_remote_repository() {
-    echo $(git ls-remote origin $1)
+    local WORKTREE_EXISTS=$(eval git ls-remote origin $1)
+    if [ ! -z $WORKTREE_EXISTS ]
+    then
+        echo "true"
+    else
+        echo "false"
+    fi
 }
 
 _wt_add() {
@@ -84,13 +89,19 @@ _wt_add() {
 
     _bare_repo_fetch
 
-    local NEW_WORKTREE_PATH=$PWD/$BRANCH_NAME
+    local BARE_REPO_PATH=$PWD
+    local NEW_WORKTREE_PATH=$BARE_REPO_PATH/$BRANCH_NAME
 
     pushd $HOLD_PATH > /dev/null
 
-    git worktree add -b $BRANCH_NAME $NEW_WORKTREE_PATH
+    local WORKTREE_EXISTS=$(_exists_remote_repository $BRANCH_NAME)
+    if [ $WORKTREE_EXISTS = "true" ]; then
+        git worktree add $NEW_WORKTREE_PATH
+    else
+        git worktree add -b $BRANCH_NAME $NEW_WORKTREE_PATH
+        git push --set-upstream origin $BRANCH_NAME
+    fi
 
-    git push --set-upstream origin $BRANCH_NAME
 
     # if there is an installation script, execute it
     # TODO pass installation script as an argument(absolute path?)
