@@ -8,7 +8,7 @@ _help() {
     echo -e "\twt prune: Prune working tree information"
     echo -e "\twt fetch: Fetch branches from the bare repository"
     echo -e "\twt add <worktree-name>: Create new working tree"
-    echo -e "\twt remove <worktree-name>: Remove a working tree"
+    echo -e "\twt remove: Remove a working tree"
     # echo -e "\twt editor <your-editor-open-command>: Open working tree. If you want to reset your editor, just run: 'wt editor'"
     echo -e "\twt upgrade: Upgrade zsh-git-worktree plugin"
 }
@@ -73,6 +73,7 @@ _wt_remove() {
     if [[ $response =~ ^(yes|y| ) ]] || [[ -z $response ]]; then
         git worktree remove -f $WORKTREE_BRANCH
         _wt_prune
+        return 0
     fi
 
     pushd $HOLD_PATH > /dev/null
