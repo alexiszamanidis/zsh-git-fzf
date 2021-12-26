@@ -68,8 +68,14 @@ _wt_remove() {
     fi
 }
 
+# local WORKTREE_EXISTS=$(_exists_remote_repository $BRANCH_NAME)
+_exists_remote_repository() {
+    echo $(git ls-remote origin $1)
+}
+
 _wt_add() {
     local HOLD_PATH=$PWD
+    local BRANCH_NAME=$1
 
     if ! _move_to_bare_repo; then
         pushd $HOLD_PATH > /dev/null
@@ -78,13 +84,19 @@ _wt_add() {
 
     _bare_repo_fetch
 
-    git worktree add $1
+    local NEW_WORKTREE_PATH=$PWD/$BRANCH_NAME
+
+    pushd $HOLD_PATH > /dev/null
+
+    git worktree add -b $BRANCH_NAME $NEW_WORKTREE_PATH
+
+    git push --set-upstream origin $BRANCH_NAME
 
     # if there is an installation script, execute it
     # TODO pass installation script as an argument(absolute path?)
-    if [ -f ./$1/install ]; then
-        chmod +x ./$1/install
-        ./$1/install
+    if [ -f ./$BRANCH_NAME/install ]; then
+        chmod +x ./$BRANCH_NAME/install
+        ./$BRANCH_NAME/install
     fi
 
     # if there is a custom editor, open the worktree and move back to your path
@@ -97,7 +109,7 @@ _wt_add() {
     # fi
 
     # otherwise move into the worktree
-    pushd $1 > /dev/null
+    pushd $NEW_WORKTREE_PATH > /dev/null
 }
 
 _wt_fetch() {
@@ -174,7 +186,7 @@ wt() {
     # elif [ $1 = "editor" ]; then
     #     _update_editor $2
     elif [ $1 = "add" ] && [ $# -eq 2 ]; then
-        _wt_add $2
+        _wt_add ${@:2}
     elif [ $1 = "remove" ] && [ $# -eq 2 ]; then
         _wt_remove $2
     elif [ $1 = "upgrade" ]; then
