@@ -152,14 +152,14 @@ _is_bare_repo() {
 
 # _update_editor() {
 #     sed -i "s/EDITOR=\".*/EDITOR=\"$1\"/g" ~/.oh-my-zsh/custom/plugins/zsh-git-worktree/zsh-git-worktree.plugin.zsh
-#     echo "Your editor has been updated successfully. You need to open a new zsh terminal or reload(source again) your .zshrc!"
+#     echo "Your editor has been updated successfully. Restart your shell or reload config file(.zshrc)."
 # }
 
 _upgrade_plugin() {
     pushd ~/.oh-my-zsh/custom/plugins/zsh-git-worktree > /dev/null
     git pull
     popd > /dev/null
-    echo "zsh-git-worktree plugin has been upgraded successfully. You need to open a new zsh terminal or reload(source again) your .zshrc!"
+    echo "zsh-git-worktree plugin has been upgraded successfully. Restart your shell or reload config file(.zshrc)."
 }
 
 wt() {
