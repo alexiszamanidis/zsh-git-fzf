@@ -2,7 +2,7 @@
 
 # default values
 port=3000
-image="zsh-worktree"
+image="zsh-git-worktree"
 tag=1
 
 # iterate throught user input arguments

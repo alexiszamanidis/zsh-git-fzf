@@ -1,4 +1,4 @@
-# zsh-worktree
+# zsh-git-worktree
 
 Zsh plugin for git worktrees
 
@@ -7,7 +7,7 @@ Zsh plugin for git worktrees
 1. Clone Repository into oh-my-zsh plugins
 
 ```
-git clone https://github.com/alexiszamanidis/zsh-worktree.git ~/.oh-my-zsh/custom/plugins/zsh-worktree
+git clone https://github.com/alexiszamanidis/zsh-git-worktree.git ~/.oh-my-zsh/custom/plugins/zsh-git-worktree
 ```
 
 2.  Add plugin to plugin list
@@ -16,7 +16,7 @@ git clone https://github.com/alexiszamanidis/zsh-worktree.git ~/.oh-my-zsh/custo
 -   Add plugin to plugin list
 
 ```
-plugins=(zsh-worktree)
+plugins=(zsh-git-worktree)
 ```
 
 ## Requirements for running the plugin
@@ -34,8 +34,8 @@ You need to execute the following commands:
 3. Run docker
 
 ```
-git clone https://github.com/alexiszamanidis/zsh-worktree.git
-cd zsh-worktree
+git clone https://github.com/alexiszamanidis/zsh-git-worktree.git
+cd zsh-git-worktree
 ./docker
 ```
 

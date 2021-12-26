@@ -6,4 +6,4 @@ sudo apt-get update -y
 sudo apt-get install -y curl git software-properties-common ansible
 
 # pull ansible
-sudo ansible-pull -t fzf -U https://github.com/alexiszamanidis/zsh-worktree.git
+sudo ansible-pull -t fzf -U https://github.com/alexiszamanidis/zsh-git-worktree.git

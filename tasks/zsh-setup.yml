@@ -29,10 +29,10 @@
   tags:
       - install
       - zsh
-- name: Copy zsh-worktree
+- name: Copy zsh-git-worktree
   copy:
-      src: "./zsh-worktree.plugin.zsh"
-      dest: "~/.oh-my-zsh/custom/plugins/zsh-worktree/"
+      src: "./zsh-git-worktree.plugin.zsh"
+      dest: "~/.oh-my-zsh/custom/plugins/zsh-git-worktree/"
 - name: Remove default .zshrc
   shell: rm -rf ~/.zshrc
   tags:

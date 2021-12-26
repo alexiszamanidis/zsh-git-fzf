@@ -6,7 +6,7 @@ plugins=(
     git
     zsh-autosuggestions
     zsh-syntax-highlighting
-    zsh-worktree
+    zsh-git-worktree
 )
 
 source $ZSH/oh-my-zsh.sh

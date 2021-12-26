@@ -151,12 +151,12 @@ _is_bare_repo() {
 }
 
 # _update_editor() {
-#     sed -i "s/EDITOR=\".*/EDITOR=\"$1\"/g" ~/.oh-my-zsh/custom/plugins/zsh-worktree/zsh-worktree.plugin.zsh
+#     sed -i "s/EDITOR=\".*/EDITOR=\"$1\"/g" ~/.oh-my-zsh/custom/plugins/zsh-git-worktree/zsh-git-worktree.plugin.zsh
 #     echo "Your editor has been updated successfully. You need to open a new zsh terminal or reload(source again) your .zshrc!"
 # }
 
 _upgrade_plugin() {
-    pushd ~/.oh-my-zsh/custom/plugins/zsh-worktree > /dev/null
+    pushd ~/.oh-my-zsh/custom/plugins/zsh-git-worktree > /dev/null
     git pull
     popd > /dev/null
     echo "zsh-git-worktree plugin has been upgraded successfully. You need to open a new zsh terminal or reload(source again) your .zshrc!"
