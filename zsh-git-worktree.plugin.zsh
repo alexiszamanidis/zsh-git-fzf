@@ -1,7 +1,5 @@
 #!/usr/bin/env zsh
 
-# EDITOR=""
-
 _help() {
     echo "Usage:"
     echo -e "\twt list: List details of each working tree"
@@ -9,7 +7,6 @@ _help() {
     echo -e "\twt fetch: Fetch branches from the bare repository"
     echo -e "\twt add <worktree-name> <(optional-)remote-worktree-name>: Create new working tree"
     echo -e "\twt remove: Remove a working tree"
-    # echo -e "\twt editor <your-editor-open-command>: Open working tree. If you want to reset your editor, just run: 'wt editor'"
     echo -e "\twt upgrade: Upgrade zsh-git-worktree plugin"
 }
 
@@ -80,7 +77,8 @@ _wt_remove() {
 }
 
 _exists_remote_repository() {
-    local WORKTREE_EXISTS=$(eval git ls-remote origin $1)
+    local BRANCH=$1
+    local WORKTREE_EXISTS=$(eval git ls-remote origin $BRANCH)
     if [ ! -z $WORKTREE_EXISTS ]
     then
         echo "true"
@@ -127,17 +125,13 @@ _wt_add() {
         $NEW_WORKTREE_PATH/install
     fi
 
-    # if there is a custom editor, open the worktree and move back to your path
+    # if there is a custom editor, open the worktree
     # TODO edge case for vim, which is a terminal editor
     # if [ ! -z $EDITOR ]
     # then
-    #     eval $EDITOR ./$1
-    #     pushd $HOLD_PATH > /dev/null
+    #     eval $EDITOR $NEW_WORKTREE_PATH
     #     return 0
     # fi
-
-    # otherwise move into the worktree
-    pushd $NEW_WORKTREE_PATH > /dev/null
 }
 
 _wt_fetch() {
@@ -190,11 +184,6 @@ _is_bare_repo() {
     echo $(eval git rev-parse --is-bare-repository)
 }
 
-# _update_editor() {
-#     sed -i "s/EDITOR=\".*/EDITOR=\"$1\"/g" ~/.oh-my-zsh/custom/plugins/zsh-git-worktree/zsh-git-worktree.plugin.zsh
-#     echo "Your editor has been updated successfully. Restart your shell or reload config file(.zshrc)."
-# }
-
 _upgrade_plugin() {
     pushd ~/.oh-my-zsh/custom/plugins/zsh-git-worktree > /dev/null
     git pull
@@ -212,8 +201,6 @@ wt() {
         _wt_prune
     elif [ $OPERATION = "fetch" ]; then
         _wt_fetch
-    # elif [ $OPERATION = "editor" ]; then
-    #     _update_editor $2
     elif [ $OPERATION = "add" ]; then
         _wt_add ${@:2}
     elif [ $OPERATION = "remove" ]; then
