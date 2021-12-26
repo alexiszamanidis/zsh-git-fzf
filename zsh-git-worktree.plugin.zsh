@@ -116,9 +116,9 @@ _wt_add() {
 
     # if there is an installation script, execute it
     # TODO pass installation script as an argument(absolute path?)
-    if [ -f ./$BRANCH_NAME/install ]; then
-        chmod +x ./$BRANCH_NAME/install
-        ./$BRANCH_NAME/install
+    if [ -f $NEW_WORKTREE_PATH/install ]; then
+        chmod +x $NEW_WORKTREE_PATH/install
+        $NEW_WORKTREE_PATH/install
     fi
 
     # if there is a custom editor, open the worktree and move back to your path
