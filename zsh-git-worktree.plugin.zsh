@@ -34,38 +34,48 @@ _wt_prune() {
 }
 
 _wt_remove() {
+    local WORKTREE=$(git worktree list | fzf)
+
+    # if the use exited fzf without choosing a worktree
+    if [ -z $WORKTREE ]
+    then
+        return 0
+    fi
+
     local HOLD_PATH=$PWD
-    local WORKTREE_REMOVE_DETAILS=$(git worktree list | grep "/$1 ")
-    local WORKTREE_PATH=$(echo $WORKTREE_REMOVE_DETAILS | awk '{print $1;}')
-    local WORKTREE_REMOVE_OUTPUT=$(git worktree remove $1 2>&1)
+    local WORKTREE_PATH=$(echo $WORKTREE | awk '{print $1;}')
+    local WORKTREE_BRANCH=$(basename $WORKTREE_PATH)
+
+    if [ $HOLD_PATH = $WORKTREE_PATH ]; then
+        _move_to_bare_repo
+    fi
+
+    local WORKTREE_REMOVE_OUTPUT=$(git worktree remove $WORKTREE_BRANCH 2>&1)
 
     # if the worktree was removed successfully
     if [ -z $WORKTREE_REMOVE_OUTPUT ]
     then
         _wt_prune
-        if [ $HOLD_PATH = $WORKTREE_PATH ]; then
-            _move_to_bare_repo
-        fi
         return 0
     fi
 
     echo $WORKTREE_REMOVE_OUTPUT
 
-    local UNTRACKED_OR_MODIFIED_FILES="fatal: '$1' contains modified or untracked files, use --force to delete it"
+    local UNTRACKED_OR_MODIFIED_FILES="fatal: '$WORKTREE_BRANCH' contains modified or untracked files, use --force to delete it"
 
     if [ $WORKTREE_REMOVE_OUTPUT != $UNTRACKED_OR_MODIFIED_FILES ]; then
+        pushd $HOLD_PATH > /dev/null
         return 0
     fi
 
     read "response?Force delete? [Y/n]"
     response=${response:l} #tolower
     if [[ $response =~ ^(yes|y| ) ]] || [[ -z $response ]]; then
-        git worktree remove -f $1
+        git worktree remove -f $WORKTREE_BRANCH
         _wt_prune
-        if [ $HOLD_PATH = $WORKTREE_PATH ]; then
-            _move_to_bare_repo
-        fi
     fi
+
+    pushd $HOLD_PATH > /dev/null
 }
 
 _exists_remote_repository() {
@@ -186,21 +196,22 @@ _upgrade_plugin() {
 }
 
 wt() {
-    if [ -z $1 ]; then
+    local OPERATION=$1
+    if [ -z $OPERATION ]; then
         _help
-    elif [ $1 = "list" ]; then
+    elif [ $OPERATION = "list" ]; then
         _wt_list
-    elif [ $1 = "prune" ]; then
+    elif [ $OPERATION = "prune" ]; then
         _wt_prune
-    elif [ $1 = "fetch" ]; then
+    elif [ $OPERATION = "fetch" ]; then
         _wt_fetch
-    # elif [ $1 = "editor" ]; then
+    # elif [ $OPERATION = "editor" ]; then
     #     _update_editor $2
-    elif [ $1 = "add" ] && [ $# -eq 2 ]; then
+    elif [ $OPERATION = "add" ] && [ $# -eq 2 ]; then
         _wt_add ${@:2}
-    elif [ $1 = "remove" ] && [ $# -eq 2 ]; then
-        _wt_remove $2
-    elif [ $1 = "upgrade" ]; then
+    elif [ $OPERATION = "remove" ]; then
+        _wt_remove
+    elif [ $OPERATION = "upgrade" ]; then
         _upgrade_plugin
     else
         _help
