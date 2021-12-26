@@ -10,6 +10,7 @@ _help() {
     echo -e "\twt add <worktree-name>: Create new working tree"
     echo -e "\twt remove <worktree-name>: Remove a working tree"
     echo -e "\twt editor <your-editor-open-command>: Open working tree. If you want to reset your editor, just run: 'wt editor'"
+    echo -e "\twt upgrade: Upgrade zsh-git-worktree plugin"
 }
 
 _wt_list() {
@@ -151,7 +152,14 @@ _is_bare_repo() {
 
 _update_editor() {
     sed -i "s/EDITOR=\".*/EDITOR=\"$1\"/g" ~/.oh-my-zsh/custom/plugins/zsh-worktree/zsh-worktree.plugin.zsh
-    echo "You editor has been updated successfully. You need to open a new zsh terminal or reload(source again) your .zshrc!"
+    echo "Your editor has been updated successfully. You need to open a new zsh terminal or reload(source again) your .zshrc!"
+}
+
+_upgrade_plugin() {
+    pushd ~/.oh-my-zsh/custom/plugins/zsh-worktree > /dev/null
+    git pull
+    popd > /dev/null
+    echo "zsh-git-worktree plugin has been upgraded successfully. You need to open a new zsh terminal or reload(source again) your .zshrc!"
 }
 
 wt() {
@@ -169,6 +177,8 @@ wt() {
         _wt_add $2
     elif [ $1 = "remove" ] && [ $# -eq 2 ]; then
         _wt_remove $2
+    elif [ $1 = "upgrade" ]; then
+        _upgrade_plugin
     else
         _help
     fi
