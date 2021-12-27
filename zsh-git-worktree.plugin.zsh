@@ -179,16 +179,22 @@ _wt_fetch() {
     pushd $HOLD_PATH > /dev/null
 }
 
+_remove_local_that_do_not_exist_on_remote_repository() {
+    git remote update --prune && \
+    git branch -vv | awk '/: gone]/{print $1}' | xargs --no-run-if-empty git branch -d
+}
+
 _bare_repo_fetch() {
     git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
-    git fetch --all
+    # _remove_local_that_do_not_exist_on_remote_repository
+    git fetch --all --prune > /dev/null
 }
 
 _move_to_bare_repo() {
     local IS_BARE_REPO=$(_is_bare_repo)
 
     if [ $IS_BARE_REPO = "true" ]; then
-        echo "Found bare repository: $PWD"
+        # echo "Found bare repository: $PWD"
         return 0
     elif [ $PWD = "/" ]; then
         echo "There is not a bare repository" > /dev/stderr
