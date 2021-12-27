@@ -88,6 +88,11 @@ _exists_remote_repository() {
 }
 
 _wt_add() {
+    if [[ $# -ne 1 ]] && [[ $# -ne 2 ]]; then
+        echo "Illegal number of parameters"
+        return 1
+    fi
+
     local HOLD_PATH=$PWD
     local BRANCH_NAME=$1
     local REMOTE_BRANCH_NAME=$2
@@ -102,21 +107,45 @@ _wt_add() {
     local BARE_REPO_PATH=$PWD
     local NEW_WORKTREE_PATH=$BARE_REPO_PATH/$BRANCH_NAME
 
-    pushd $HOLD_PATH > /dev/null
-
-    local WORKTREE_EXISTS=$(_exists_remote_repository $BRANCH_NAME)
-    if [ $WORKTREE_EXISTS = "true" ]; then
-        git worktree add $NEW_WORKTREE_PATH
-    else
-        if [ ! -z $REMOTE_BRANCH_NAME ]
-        then
-            git worktree add --track -b $BRANCH_NAME $NEW_WORKTREE_PATH origin/$REMOTE_BRANCH_NAME
-        else
-            git worktree add -b $BRANCH_NAME $NEW_WORKTREE_PATH
-        fi
-        git push --set-upstream origin $BRANCH_NAME
+    local WORKTREE=""
+    if [[ $# -eq 1 ]]; then
+        WORKTREE=$(git worktree list | fzf)
     fi
 
+    if [[ $# -eq 1 ]]; then
+        # if the use exited fzf without choosing a worktree
+        if [[ -z $WORKTREE ]]; then
+            # this means that the we want to clone a remote branch
+            local WORKTREE_EXISTS=$(_exists_remote_repository $BRANCH_NAME)
+            if [ $WORKTREE_EXISTS = "true" ]; then
+                git worktree add $NEW_WORKTREE_PATH
+            else
+                echo "There is not remote branch named: '$BRANCH_NAME'"
+                pushd $HOLD_PATH > /dev/null
+                return 1
+            fi
+        else
+            # otherwise create a worktree from a local branch
+            local WORKTREE_PATH=$(echo $WORKTREE | awk '{print $1;}')
+
+            pushd $WORKTREE_PATH > /dev/null
+
+            git worktree add -b $BRANCH_NAME $NEW_WORKTREE_PATH
+            git push --set-upstream origin $BRANCH_NAME
+        fi
+    fi
+
+    if [[ ! -z $REMOTE_BRANCH_NAME ]] && [[ $# -eq 2 ]]; then
+        local REMOTE_BRANCH_EXISTS=$(_exists_remote_repository $REMOTE_BRANCH_NAME)
+        if [ $REMOTE_BRANCH_EXISTS = "true" ]; then
+            git worktree add --track -b $BRANCH_NAME $NEW_WORKTREE_PATH origin/$REMOTE_BRANCH_NAME
+            git push --set-upstream origin $BRANCH_NAME
+        else
+            echo "There is not remote branch named: '$REMOTE_BRANCH_NAME'"
+            pushd $HOLD_PATH > /dev/null
+            return 1
+        fi
+    fi
 
     # if there is an installation script, execute it
     # TODO pass installation script as an argument(absolute path?)
@@ -150,13 +179,9 @@ _wt_fetch() {
     pushd $HOLD_PATH > /dev/null
 }
 
-# TODO: i need to revisit this method
 _bare_repo_fetch() {
-    # set config so we can make the fetch
-    git config remote.origin.fetch 'refs/heads/*:refs/heads/*'
-    git fetch
-    # undo
     git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
+    git fetch --all
 }
 
 _move_to_bare_repo() {
@@ -205,7 +230,7 @@ wt() {
     elif [ $OPERATION = "fetch" ]; then
         _wt_fetch
     elif [ $OPERATION = "add" ]; then
-        _wt_add ${@:2}
+        _wt_add ${@:2} # pass all arguments except the first one(add)
     elif [ $OPERATION = "remove" ]; then
         _wt_remove
     elif [ $OPERATION = "upgrade" ]; then
