@@ -21,3 +21,20 @@ rm -rf ./install
 ```
 plugins=(zsh-git-worktree)
 ```
+
+## Assumptions
+
+This is the first version of the plugin, so you need to make some assumptions to use it
+
+-   Make sure your working repository is bare
+
+```
+git clone --bare <your-repository>
+```
+
+-   If you want to execute a project set-up script after creating a new work tree, you need to add it to your repository as 'install'.
+
+```
+you-repository-folder/
+- install
+```
