@@ -34,7 +34,7 @@ if [ -d ~/.oh-my-zsh/custom/plugins/zsh-git-worktree ] ; then
     colorful_echo "Restart your shell or reload config file(.zshrc)." "GREEN"
     popd > /dev/null
 else
-    # git clone https://github.com/alexiszamanidis/zsh-git-worktree.git ~/.oh-my-zsh/custom/plugins/zsh-git-worktree
+    git clone https://github.com/alexiszamanidis/zsh-git-worktree.git ~/.oh-my-zsh/custom/plugins/zsh-git-worktree
     colorful_echo "Add plugin to plugin list:" "GREEN"
     colorful_echo "- Open .zshrc(e.g. code .zshrc, vim .zshrc)"
     colorful_echo " - Add plugin to plugin list: 'plugins=(zsh-git-worktree)'"
