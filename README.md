@@ -41,6 +41,17 @@ Usage:
     wt upgrade: Upgrade zsh-git-worktree plugin
 ```
 
+**wt add** (Create Operation)
+
+-   Checkout new branch from a remote branch:
+    -   Run the following command: `wt add <-new-branch-> <-remote-branch->`
+-   Checkout remote branch:
+    -   Run the following command: `wt add <-remote-branch->`
+    -   After executing the command above, close the fzf by pressing ESC
+-   Checkout new branch from a local branch:
+    -   Run the following command: `wt add <-new-branch->`
+    -   After executing the command above, select a working tree from the fzf results
+
 ## Assumptions
 
 This is the first version of the plugin, so you need to make some assumptions to use it
