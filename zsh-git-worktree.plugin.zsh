@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+local FZF_OPTIONS="--no-preview"
+
 _help() {
     echo "Usage:"
     echo -e "\twt list: List details of each working tree"
@@ -11,7 +13,7 @@ _help() {
 }
 
 _wt_list() {
-    local WORKTREE=$(git worktree list | fzf)
+    local WORKTREE=$(git worktree list | fzf $FZF_OPTIONS)
 
     # if the use exited fzf without choosing a worktree
     if [ -z $WORKTREE ]
@@ -31,7 +33,7 @@ _wt_prune() {
 }
 
 _wt_remove() {
-    local WORKTREE=$(git worktree list | fzf)
+    local WORKTREE=$(git worktree list | fzf $FZF_OPTIONS)
 
     # if the use exited fzf without choosing a worktree
     if [ -z $WORKTREE ]
@@ -109,7 +111,7 @@ _wt_add() {
 
     local WORKTREE=""
     if [[ $# -eq 1 ]]; then
-        WORKTREE=$(git worktree list | fzf)
+        WORKTREE=$(git worktree list | fzf $FZF_OPTIONS)
     fi
 
     if [[ $# -eq 1 ]]; then
