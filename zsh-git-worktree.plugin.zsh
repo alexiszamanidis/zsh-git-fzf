@@ -228,6 +228,12 @@ _upgrade_plugin() {
 }
 
 wt() {
+    local IS_GIT_REPOSITORY="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
+    if [[ ! $IS_GIT_REPOSITORY ]]; then
+        echo "wt: not a git repository"
+        return 1
+    fi
+
     local OPERATION=$1
     if [ -z $OPERATION ]; then
         _help
