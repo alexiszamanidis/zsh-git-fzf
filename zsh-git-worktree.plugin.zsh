@@ -221,10 +221,22 @@ _is_bare_repo() {
 }
 
 _upgrade_plugin() {
-    pushd ~/.oh-my-zsh/custom/plugins/zsh-git-worktree > /dev/null
+    local HOLD_PATH=$PWD
+
+    # TODO: is there anything better than this? for checking if the repository needs pull
+    git fetch &> /dev/null
+    diffs=$(git diff main origin/main)
+
+    if [ -z "$diffs" ]
+    then
+        echo "Already up to date."
+        pushd $HOLD_PATH > /dev/null
+        return 0
+    fi
+
     git pull
-    popd > /dev/null
     echo "zsh-git-worktree plugin has been upgraded successfully. Restart your shell or reload config file(.zshrc)."
+    pushd $HOLD_PATH > /dev/null
 }
 
 wt() {
