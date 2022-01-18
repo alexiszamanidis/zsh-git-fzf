@@ -2,6 +2,12 @@
 
 A ZSH plugin that wraps some git worktree operations for simplicity and productivity. Also, it combines the FZF tool to make the git worktree operations more convenient.
 
+## Benefits
+
+-   Simpler API for git worktrees
+-   No need to `cd` around. After you have created a git worktree you will be moved into it
+-   Easy setup for your project after you create an installation script named `install` in the root folder of the repository
+
 ## Dependencies
 
 -   Git version: 2.34.1
