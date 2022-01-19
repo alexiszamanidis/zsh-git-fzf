@@ -101,6 +101,12 @@ _wt_add() {
     local BRANCH_NAME=$1
     local REMOTE_BRANCH_NAME=$2
 
+    local WORKTREE_EXISTS=$(_exists_worktree $BRANCH_NAME)
+    if [ $WORKTREE_EXISTS = "true" ]; then
+        colorful_echo "Worktree named already exists: '$BRANCH_NAME'" "RED"
+        return 1
+    fi
+
     if ! _move_to_bare_repo; then
         pushd $HOLD_PATH > /dev/null
         return 1
@@ -175,6 +181,18 @@ _wt_add() {
 
     # otherwise move into the worktree
     pushd $NEW_WORKTREE_PATH > /dev/null
+}
+
+_exists_worktree() {
+    local WORKTREE=$1
+    local COMMAND="git worktree list | awk '{print \$3;}' | awk '/\[$WORKTREE\]/{print \$1}'"
+    local WORKTREE_FOUND=$(eval $COMMAND)
+
+    if [ $WORKTREE_FOUND = "[$WORKTREE]" ]; then
+        echo "true"
+    else
+        echo "false"
+    fi
 }
 
 _wt_fetch() {
