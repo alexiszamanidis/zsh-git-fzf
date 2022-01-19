@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+source ~/.oh-my-zsh/custom/plugins/zsh-git-worktree/helpers
+
 local FZF_OPTIONS="--no-preview"
 
 _help() {
@@ -91,7 +93,7 @@ _exists_remote_repository() {
 
 _wt_add() {
     if [[ $# -ne 1 ]] && [[ $# -ne 2 ]]; then
-        echo "Illegal number of parameters"
+        colorful_echo "Illegal number of parameters" "RED"
         return 1
     fi
 
@@ -120,13 +122,19 @@ _wt_add() {
             # this means that the we want to clone a remote branch
             local WORKTREE_EXISTS=$(_exists_remote_repository $BRANCH_NAME)
             if [ $WORKTREE_EXISTS = "true" ]; then
+                colorful_echo "Creating worktree from remote branch" "GREEN"
                 git worktree add $NEW_WORKTREE_PATH
+                git branch --set-upstream-to=origin/$BRANCH_NAME $BRANCH_NAME
+                pushd $NEW_WORKTREE_PATH > /dev/null
+                git pull
+                return 0
             else
-                echo "There is not remote branch named: '$BRANCH_NAME'"
+                colorful_echo "There is not remote branch named: '$BRANCH_NAME'" "RED"
                 pushd $HOLD_PATH > /dev/null
                 return 1
             fi
         else
+            colorful_echo "Creating worktree from local branch" "GREEN"
             # otherwise create a worktree from a local branch
             local WORKTREE_PATH=$(echo $WORKTREE | awk '{print $1;}')
 
@@ -140,10 +148,11 @@ _wt_add() {
     if [[ ! -z $REMOTE_BRANCH_NAME ]] && [[ $# -eq 2 ]]; then
         local REMOTE_BRANCH_EXISTS=$(_exists_remote_repository $REMOTE_BRANCH_NAME)
         if [ $REMOTE_BRANCH_EXISTS = "true" ]; then
+            colorful_echo "Creating worktree from remote branch" "GREEN"
             git worktree add --track -b $BRANCH_NAME $NEW_WORKTREE_PATH origin/$REMOTE_BRANCH_NAME
             git push --set-upstream origin $BRANCH_NAME
         else
-            echo "There is not remote branch named: '$REMOTE_BRANCH_NAME'"
+            colorful_echo "There is not remote branch named: '$REMOTE_BRANCH_NAME'" "RED"
             pushd $HOLD_PATH > /dev/null
             return 1
         fi
@@ -229,20 +238,20 @@ _upgrade_plugin() {
 
     if [ -z "$diffs" ]
     then
-        echo "Already up to date."
+        colorful_echo "Already up to date" "GREEN"
         pushd $HOLD_PATH > /dev/null
         return 0
     fi
 
     git pull
-    echo "zsh-git-worktree plugin has been upgraded successfully. Restart your shell or reload config file(.zshrc)."
+    colorful_echo "zsh-git-worktree plugin has been upgraded successfully. Restart your shell or reload config file(.zshrc)." "GREEN"
     pushd $HOLD_PATH > /dev/null
 }
 
 wt() {
     local IS_GIT_REPOSITORY="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
     if [[ ! $IS_GIT_REPOSITORY ]]; then
-        echo "wt: not a git repository"
+        colorful_echo "wt: not a git repository" "RED"
         return 1
     fi
 
