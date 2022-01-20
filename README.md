@@ -42,7 +42,7 @@ After installing the plugin you can execute **wt help** to check the operations 
 
 ```
 Usage:
-    wt list(switch): List details of each working tree
+    wt switch: List details of each working tree. Press ESC to exit or select a worktree to move into it
     wt prune: Prune working tree information
     wt fetch: Fetch branches from the bare repository
     wt add <worktree-name> <(optional-)remote-worktree-name>: Create new working tree
@@ -50,31 +50,31 @@ Usage:
     wt upgrade: Upgrade zsh-git-worktree plugin
 ```
 
-**wt add** (Create Operation)
+**wt add**
 
 -   Checkout new branch from a **remote branch**:
     -   Run the following command: `wt add <-new-branch-> <-remote-branch->`
     -   After executing the command above, you will be moved into the new working tree
 -   Checkout **remote branch**:
     -   Run the following command: `wt add <-remote-branch->`
-    -   After executing the command above, close the fzf by pressing ESC and you will be moved into the new working tree
+    -   After executing the command above, close the fzf by pressing `ESC` and you will be moved into the new working tree
 -   Checkout new branch from a **local branch**:
     -   Run the following command: `wt add <-new-branch->`
     -   After executing the command above, select a working tree from the fzf results and you will be moved into the new working tree
 
-**wt delete** (Delete Operation)
+**wt delete**
 
 -   Remove a worktree
     -   Run the following command: `wt remove`
     -   After executing the command above, select a working tree from the fzf results and the selected worktree will be removed
 
-**wt list** (Switch Operation)
+**wt switch**
 
 -   List all worktrees
-    -   Run the following command: `wt list`
-    -   After executing the command above, close the fzf by pressing ESC
+    -   Run the following command: `wt switch`
+    -   After executing the command above, close the fzf by pressing `ESC`
 -   Switch worktree
-    -   Run the following command: `wt list`
+    -   Run the following command: `wt switch`
     -   After executing the command above, select a working tree from the fzf results and you will be moved into the selected working tree
 
 ## Assumptions
