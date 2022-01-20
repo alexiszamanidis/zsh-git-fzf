@@ -2,11 +2,14 @@
 
 A ZSH plugin that wraps some git worktree operations for simplicity and productivity. Also, it combines the FZF tool to make the git worktree operations more convenient.
 
+**You can find my plugin listed among other useful plugin in the [awesome-zsh-plugins](https://github.com/unixorn/awesome-zsh-plugins) plugin!**
+
 ## Benefits
 
 -   Simpler API for git worktrees
 -   No need to `cd` around. After you have created a git worktree you will be moved into it
 -   Easy setup for your project after you create an installation script named `install` in the root folder of the repository
+-   You will never stash your changes again
 
 ## Dependencies
 
@@ -49,12 +52,12 @@ Usage:
 
 **wt add** (Create Operation)
 
--   Checkout new branch from a remote branch:
+-   Checkout new branch from a **remote branch**:
     -   Run the following command: `wt add <-new-branch-> <-remote-branch->`
--   Checkout remote branch:
+-   Checkout **remote branch**:
     -   Run the following command: `wt add <-remote-branch->`
     -   After executing the command above, close the fzf by pressing ESC
--   Checkout new branch from a local branch:
+-   Checkout new branch from a **local branch**:
     -   Run the following command: `wt add <-new-branch->`
     -   After executing the command above, select a working tree from the fzf results
 
@@ -81,9 +84,13 @@ you-repository-folder/
 
 ## Contribution
 
+If you have an idea that fits this plugin or have solved any of my TODOs, follow these steps:
+
 -   Fork the repository
 -   Create new branch
 -   Open a pull request
+
+If you found anything unusual please create an issue.
 
 ## References
 
