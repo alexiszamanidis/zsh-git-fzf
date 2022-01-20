@@ -18,10 +18,7 @@ _wt_switch() {
     local WORKTREE=$(git worktree list | fzf $FZF_OPTIONS)
 
     # if the use exited fzf without choosing a worktree
-    if [ -z $WORKTREE ]
-    then
-        return 0
-    fi
+    [ -z $WORKTREE ] && return 0
 
     local WORKTREE_PATH=$(echo $WORKTREE | awk '{print $1;}')
     local WORKTREE_COMMIT=$(echo $WORKTREE | awk '{print $2;}')
@@ -38,10 +35,7 @@ _wt_remove() {
     local WORKTREE=$(git worktree list | fzf $FZF_OPTIONS)
 
     # if the use exited fzf without choosing a worktree
-    if [ -z $WORKTREE ]
-    then
-        return 0
-    fi
+    [ -z $WORKTREE ] && return 0
 
     local HOLD_PATH=$PWD
     local WORKTREE_PATH=$(echo $WORKTREE | awk '{print $1;}')
@@ -53,12 +47,8 @@ _wt_remove() {
 
     local WORKTREE_REMOVE_OUTPUT=$(git worktree remove $WORKTREE_BRANCH 2>&1)
 
-    # if the worktree was removed successfully
-    if [ -z $WORKTREE_REMOVE_OUTPUT ]
-    then
-        _wt_prune
-        return 0
-    fi
+    # if the worktree was removed successfully => prune and return
+    [ -z $WORKTREE_REMOVE_OUTPUT ] && _wt_prune && return 0
 
     echo $WORKTREE_REMOVE_OUTPUT
 
@@ -118,9 +108,7 @@ _wt_add() {
     local NEW_WORKTREE_PATH=$BARE_REPO_PATH/$BRANCH_NAME
 
     local WORKTREE=""
-    if [[ $# -eq 1 ]]; then
-        WORKTREE=$(git worktree list | fzf $FZF_OPTIONS)
-    fi
+    [[ $# -eq 1 ]] && WORKTREE=$(git worktree list | fzf $FZF_OPTIONS)
 
     if [[ $# -eq 1 ]]; then
         # if the use exited fzf without choosing a worktree
