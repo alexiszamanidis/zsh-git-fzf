@@ -250,6 +250,8 @@ _is_bare_repo() {
 _upgrade_plugin() {
     local HOLD_PATH=$PWD
 
+    pushd ~/.oh-my-zsh/custom/plugins/zsh-git-worktree > /dev/null
+
     # TODO: is there anything better than this? for checking if the repository needs pull
     git fetch &> /dev/null
     diffs=$(git diff main origin/main)
@@ -267,16 +269,22 @@ _upgrade_plugin() {
 }
 
 wt() {
+    local OPERATION=$1
+    if [ -z $OPERATION ]; then
+        _help
+        return 0
+    elif [ $OPERATION = "upgrade" ]; then
+        _upgrade_plugin
+        return 0;
+    fi
+
     local IS_GIT_REPOSITORY="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
     if [[ ! $IS_GIT_REPOSITORY ]]; then
         colorful_echo "wt: not a git repository" "RED"
         return 1
     fi
 
-    local OPERATION=$1
-    if [ -z $OPERATION ]; then
-        _help
-    elif [ $OPERATION = "list" ]; then
+    if [ $OPERATION = "list" ]; then
         _wt_list
     elif [ $OPERATION = "prune" ]; then
         _wt_prune
@@ -286,8 +294,6 @@ wt() {
         _wt_add ${@:2} # pass all arguments except the first one(add)
     elif [ $OPERATION = "remove" ]; then
         _wt_remove
-    elif [ $OPERATION = "upgrade" ]; then
-        _upgrade_plugin
     else
         _help
     fi
