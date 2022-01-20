@@ -79,6 +79,12 @@ you-repository-folder/
 
 ![zsh-git-worktree](https://user-images.githubusercontent.com/48658768/147582012-636af175-f296-44c7-b412-8e55117b7931.gif)
 
+## Contribution
+
+-   Fork the repository
+-   Create new branch
+-   Open a pull request
+
 ## References
 
 -   [Git Worktree Documentation](https://git-scm.com/docs/git-worktree)
