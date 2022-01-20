@@ -6,7 +6,7 @@ local FZF_OPTIONS="--no-preview"
 
 _help() {
     echo "Usage:"
-    echo -e "\twt list: List details of each working tree"
+    echo -e "\twt list(switch): List details of each working tree"
     echo -e "\twt prune: Prune working tree information"
     echo -e "\twt fetch: Fetch branches from the bare repository"
     echo -e "\twt add <worktree-name> <(optional-)remote-worktree-name>: Create new working tree"

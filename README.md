@@ -42,7 +42,7 @@ After installing the plugin you can execute **wt help** to check the operations 
 
 ```
 Usage:
-    wt list: List details of each working tree
+    wt list(switch): List details of each working tree
     wt prune: Prune working tree information
     wt fetch: Fetch branches from the bare repository
     wt add <worktree-name> <(optional-)remote-worktree-name>: Create new working tree
@@ -54,12 +54,28 @@ Usage:
 
 -   Checkout new branch from a **remote branch**:
     -   Run the following command: `wt add <-new-branch-> <-remote-branch->`
+    -   After executing the command above, you will be moved into the new working tree
 -   Checkout **remote branch**:
     -   Run the following command: `wt add <-remote-branch->`
-    -   After executing the command above, close the fzf by pressing ESC
+    -   After executing the command above, close the fzf by pressing ESC and you will be moved into the new working tree
 -   Checkout new branch from a **local branch**:
     -   Run the following command: `wt add <-new-branch->`
-    -   After executing the command above, select a working tree from the fzf results
+    -   After executing the command above, select a working tree from the fzf results and you will be moved into the new working tree
+
+**wt delete** (Delete Operation)
+
+-   Remove a worktree
+    -   Run the following command: `wt remove`
+    -   After executing the command above, select a working tree from the fzf results and the selected worktree will be removed
+
+**wt list** (Switch Operation)
+
+-   List all worktrees
+    -   Run the following command: `wt list`
+    -   After executing the command above, close the fzf by pressing ESC
+-   Switch worktree
+    -   Run the following command: `wt list`
+    -   After executing the command above, select a working tree from the fzf results and you will be moved into the selected working tree
 
 ## Assumptions
 
