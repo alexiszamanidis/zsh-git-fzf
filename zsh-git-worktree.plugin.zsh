@@ -188,7 +188,7 @@ _exists_worktree() {
     local COMMAND="git worktree list | awk '{print \$3;}' | awk '/\[$WORKTREE\]/{print \$1}'"
     local WORKTREE_FOUND=$(eval $COMMAND)
 
-    if [ $WORKTREE_FOUND = "[$WORKTREE]" ]; then
+    if [ ! -z $WORKTREE_FOUND ]; then
         echo "true"
     else
         echo "false"
