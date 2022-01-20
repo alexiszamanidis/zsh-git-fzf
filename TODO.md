@@ -4,6 +4,10 @@
 -   Add editor for opening the worktrees(\_wt_add has already the implementation for the editor commented out). We need to get the editor information from the .zshrc file. **Clean up current implementation**
 -   Problem with the installation of the dependencies(e.g. node_modules). Should I include 'npm/yarn install' in the installation script? Is there a way to copy fast the node_modules(e.g. file links? - if I change a dependency with a hard link all the dependencies will be changed)?
 -   Should a bare repository be a convention for this plugin? Then, we need to refactor the `_move_to_bare_repo` method, because we can pick up the bare repo path from the command: `git worktree list | fzf`
+-   Create new worktree from a local branch? Do I actually need this?
+    -   New Design(No FZF usage):
+        -   Pass one branch => Create worktree from a remote branch named as the remote branch
+        -   Pass two branches <wt add new-branch remote-branch> => Create worktree from a remote branch named as the 'new-branch' param
 
 **Design**
 
