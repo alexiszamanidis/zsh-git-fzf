@@ -205,14 +205,15 @@ _wt_fetch() {
     pushd $HOLD_PATH > /dev/null
 }
 
+# TODO: is there a better way to implement this??
 _remove_local_that_do_not_exist_on_remote_repository() {
-    git remote update --prune && \
-    git branch -vv | awk '/: gone]/{print $1}' | xargs --no-run-if-empty git branch -d
+    git remote update --prune > /dev/null
+    git branch -vv | awk '/: gone]/{print $1}' | xargs --no-run-if-empty git branch -d > /dev/null
 }
 
 _bare_repo_fetch() {
     git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
-    # _remove_local_that_do_not_exist_on_remote_repository
+    _remove_local_that_do_not_exist_on_remote_repository
     git fetch --all --prune > /dev/null
 }
 
