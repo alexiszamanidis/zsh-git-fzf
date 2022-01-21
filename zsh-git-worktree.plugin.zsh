@@ -108,35 +108,32 @@ _wt_add() {
     local WORKTREE=""
     [[ $# -eq 1 ]] && WORKTREE=$(git worktree list | fzf $FZF_OPTIONS)
 
+    local BRANCH_EXISTS=$(_exists_remote_repository $BRANCH_NAME)
+
     if [[ $# -eq 1 ]]; then
-        local BRANCH_EXISTS=$(_exists_remote_repository $BRANCH_NAME)
-        # if the use exited fzf without choosing a worktree
+        # if the use exited fzf without choosing a worktree, this means that the we want to clone a remote branch
         if [[ -z $WORKTREE ]]; then
-            # this means that the we want to clone a remote branch
-            if [ $BRANCH_EXISTS = "true" ]; then
-                colorful_echo "Creating worktree from remote branch" "GREEN"
-                git worktree add $NEW_WORKTREE_PATH
-                git branch --set-upstream-to=origin/$BRANCH_NAME $BRANCH_NAME
-                pushd $NEW_WORKTREE_PATH > /dev/null
-                git pull
-                return 0
-            else
-                colorful_echo "There is not remote branch named: '$BRANCH_NAME'" "RED"
+            if [ $BRANCH_EXISTS = "false" ]; then
+                colorful_echo "Remote branch named: '$BRANCH_NAME' does not exist" "RED"
                 pushd $HOLD_PATH > /dev/null
                 return 1
             fi
+            colorful_echo "Creating worktree from remote branch" "GREEN"
+            git worktree add $NEW_WORKTREE_PATH
+            git branch --set-upstream-to=origin/$BRANCH_NAME $BRANCH_NAME
+            pushd $NEW_WORKTREE_PATH > /dev/null
+            git pull
+            return 0
         else
             # otherwise create a worktree from a local branch
 
-            # check if the branch already exists
             if [ $BRANCH_EXISTS = "true" ]; then
                 colorful_echo "Remote branch named: '$BRANCH_NAME' already exists" "RED"
                 return 1
             fi
+
             colorful_echo "Creating worktree from local branch" "GREEN"
 
-            # otherwise create a worktree from a local branch
-            # this means that we cant to create a new branch checked out from a remote branch
             local WORKTREE_PATH=$(echo $WORKTREE | awk '{print $1;}')
 
             pushd $WORKTREE_PATH > /dev/null
@@ -147,23 +144,21 @@ _wt_add() {
     fi
 
     if [[ ! -z $REMOTE_BRANCH_NAME ]] && [[ $# -eq 2 ]]; then
-        local NEW_BRANCH_EXISTS=$(_exists_remote_repository $BRANCH_NAME)
-        if [ $NEW_BRANCH_EXISTS = "true" ]; then
+        if [ $BRANCH_EXISTS = "true" ]; then
             colorful_echo "Remote branch named: '$BRANCH_NAME' already exists" "RED"
             pushd $HOLD_PATH > /dev/null
             return 1
         fi
 
         local REMOTE_BRANCH_EXISTS=$(_exists_remote_repository $REMOTE_BRANCH_NAME)
-        if [ $REMOTE_BRANCH_EXISTS = "true" ]; then
-            colorful_echo "Creating worktree from remote branch" "GREEN"
-            git worktree add --track -b $BRANCH_NAME $NEW_WORKTREE_PATH origin/$REMOTE_BRANCH_NAME
-            git push --set-upstream origin $BRANCH_NAME
-        else
+        if [ $REMOTE_BRANCH_EXISTS = "false" ]; then
             colorful_echo "Remote branch named: '$REMOTE_BRANCH_NAME' does not exist" "RED"
             pushd $HOLD_PATH > /dev/null
             return 1
         fi
+        colorful_echo "Creating worktree from remote branch" "GREEN"
+        git worktree add --track -b $BRANCH_NAME $NEW_WORKTREE_PATH origin/$REMOTE_BRANCH_NAME
+        git push --set-upstream origin $BRANCH_NAME
     fi
 
     # if there is an installation script, execute it
