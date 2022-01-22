@@ -269,13 +269,8 @@ _upgrade_plugin() {
 
 wt() {
     local OPERATION=$1
-    if [ -z $OPERATION ]; then
-        _help
-        return 0
-    elif [ $OPERATION = "upgrade" ]; then
-        _upgrade_plugin
-        return 0;
-    fi
+    [ -z $OPERATION ] && _help && return 0
+    [ $OPERATION = "upgrade" ] && _upgrade_plugin && return 0
 
     local IS_GIT_REPOSITORY="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
     if [[ ! $IS_GIT_REPOSITORY ]]; then
