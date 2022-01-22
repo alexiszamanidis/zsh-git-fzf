@@ -101,14 +101,16 @@ you-repository-folder/
 
 ## Contribution
 
--   If you have an idea that fits this plugin or have solved any of my TODOs, follow these steps:
-
-    -   Fork the repository
-    -   Create new branch
-    -   Open a pull request
-
--   If you found anything unusual please create an issue.
+-   Reporting a bug
+-   Improving this documentation
+-   Writing tests
+-   Sharing this project and recommending it to your friends
+-   Giving a star on this repository
 
 ## References
 
 -   [Git Worktree Documentation](https://git-scm.com/docs/git-worktree)
+
+## License
+
+[MIT © Alexis Zamanidis](https://github.com/alexiszamanidis/zsh-git-worktree/blob/main/LICENSE)
