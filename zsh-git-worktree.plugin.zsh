@@ -8,7 +8,7 @@ local FZF_OPTIONS="--no-preview"
 
 _help() {
     echo "Usage:"
-    echo -e "\twt switch: List details of each working tree. Press ESC to exit or select a worktree to move into it"
+    echo -e "\twt list: List details of each working tree. Press ESC to exit or select a worktree to move into it"
     echo -e "\twt prune: Prune working tree information"
     echo -e "\twt fetch: Fetch branches from the bare repository"
     echo -e "\twt add <worktree-name> <(optional-)remote-worktree-name>: Create new working tree"
@@ -16,7 +16,7 @@ _help() {
     echo -e "\twt upgrade: Upgrade zsh-git-worktree plugin"
 }
 
-_wt_switch() {
+_wt_list() {
     local WORKTREE=$(git worktree list | fzf $FZF_OPTIONS)
 
     # if the use exited fzf without choosing a worktree
@@ -284,8 +284,8 @@ wt() {
         return 1
     fi
 
-    if [ $OPERATION = "switch" ]; then
-        _wt_switch
+    if [ $OPERATION = "list" ]; then
+        _wt_list
     elif [ $OPERATION = "prune" ]; then
         _wt_prune
     elif [ $OPERATION = "fetch" ]; then
@@ -302,7 +302,7 @@ wt() {
 _wt() {
     local operations
     operations=(
-        "switch: List details of each working tree. Press ESC to exit or select a worktree to move into it"
+        "list: List details of each working tree. Press ESC to exit or select a worktree to move into it"
         "prune: Prune working tree information"
         "fetch: Fetch branches from the bare repository"
         "add: Create new working tree"

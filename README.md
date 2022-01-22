@@ -43,7 +43,7 @@ After installing the plugin you can execute **wt help** to check the operations 
 
 ```
 Usage:
-    wt switch: List details of each working tree. Press ESC to exit or select a worktree to move into it
+    wt list: List details of each working tree. Press ESC to exit or select a worktree to move into it
     wt prune: Prune working tree information
     wt fetch: Fetch branches from the bare repository
     wt add <worktree-name> <(optional-)remote-worktree-name>: Create new working tree
@@ -69,13 +69,13 @@ Usage:
     -   Run the following command: `wt remove`
     -   After executing the command above, select a working tree from the fzf results and the selected worktree will be removed
 
-**wt switch**
+**wt list**
 
 -   List all worktrees
-    -   Run the following command: `wt switch`
+    -   Run the following command: `wt list`
     -   After executing the command above, close the fzf by pressing `ESC`
 -   Switch worktree
-    -   Run the following command: `wt switch`
+    -   Run the following command: `wt list`
     -   After executing the command above, select a working tree from the fzf results and you will be moved into the selected working tree
 
 ## Assumptions
