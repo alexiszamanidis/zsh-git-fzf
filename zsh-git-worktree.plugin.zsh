@@ -1,8 +1,7 @@
 #!/usr/bin/env zsh
 
-fpath=("~/.oh-my-zsh/custom/plugins/zsh-git-worktree/completions" $fpath)
-
 source ~/.oh-my-zsh/custom/plugins/zsh-git-worktree/helpers
+source ~/.oh-my-zsh/custom/plugins/zsh-git-worktree/completions
 
 local FZF_OPTIONS="--no-preview"
 
@@ -298,18 +297,3 @@ wt() {
         _help
     fi
 }
-
-_wt() {
-    local operations
-    operations=(
-        "list: List details of each working tree. Press ESC to exit or select a worktree to move into it"
-        "prune: Prune working tree information"
-        "fetch: Fetch branches from the bare repository"
-        "add: Create new working tree"
-        "remove: Remove a working tree"
-        "upgrade: Upgrade zsh-git-worktree plugin"
-    )
-    _describe "operations" operations
-}
-
-compdef _wt wt
