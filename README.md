@@ -10,6 +10,7 @@ A ZSH plugin that wraps some git worktree operations for simplicity and producti
 -   No need to `cd` around. After you have created a git worktree you will be moved into it
 -   Easy setup for your project after you create an installation script named `install` in the root folder of the repository
 -   You will never stash your changes again
+-   Plugin completions. After typing `wt ` press `TAB` to view the completions
 
 ## Dependencies
 
@@ -100,13 +101,13 @@ you-repository-folder/
 
 ## Contribution
 
-- If you have an idea that fits this plugin or have solved any of my TODOs, follow these steps:
+-   If you have an idea that fits this plugin or have solved any of my TODOs, follow these steps:
 
     -   Fork the repository
     -   Create new branch
     -   Open a pull request
 
-- If you found anything unusual please create an issue.
+-   If you found anything unusual please create an issue.
 
 ## References
 
