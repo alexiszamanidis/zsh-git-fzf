@@ -12,6 +12,7 @@ _help() {
     echo -e "\twt fetch: Fetch branches from the bare repository"
     echo -e "\twt add <worktree-name> <(optional-)remote-worktree-name>: Create new working tree"
     echo -e "\twt remove: Remove a working tree"
+    echo -e "\twt clean: Remove all working trees that do not have a corresponding remote branch"
     echo -e "\twt upgrade: Upgrade zsh-git-worktree plugin"
 }
 
@@ -215,7 +216,8 @@ _remove_local_that_do_not_exist_on_remote_repository() {
 }
 
 _bare_repo_fetch() {
-    git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
+    local REMOTE_ORIGIN_FETCH=$(git config remote.origin.fetch)
+    [ $REMOTE_ORIGIN_FETCH != '+refs/heads/*:refs/remotes/origin/*' ] && git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
     _remove_local_that_do_not_exist_on_remote_repository
     git fetch --all --prune > /dev/null
 }
@@ -252,6 +254,42 @@ _upgrade_plugin() {
     pushd $HOLD_PATH > /dev/null
 }
 
+_wt_clean() {
+    # awk '$3{print $3}!$3{print "(bare)"}' => there is not a 3rd column in bare repo, so we return (bare)
+    # sed 's:^.\(.*\).$:\1:' => remove first and last character(e.g. [main] => main)
+    local BRANCHES_NAMES=$(git worktree list | awk '$3{print $3}!$3{print "(bare)"}' | sed 's:^.\(.*\).$:\1:')
+
+    local BRANCHES=()
+    while read -r branch_name
+    do
+        BRANCHES+=("$branch_name")
+    done <<< "$BRANCHES_NAMES"
+
+    local BRANCHED_TO_BE_REMOVED=()
+    for branch in $BRANCHES; do
+        [[ $branch = "bare" ]] && continue
+
+        local BRANCH_EXISTS=$(_exists_remote_repository $branch)
+        [ $BRANCH_EXISTS = "true" ] && continue
+
+        BRANCHED_TO_BE_REMOVED+=($branch)
+    done
+
+    [ -z $BRANCHED_TO_BE_REMOVED ] && colorful_echo "All worktrees have a corresponding remote branch" && return 0
+
+    for branch in $BRANCHED_TO_BE_REMOVED; do
+        local WORKTREE_REMOVE_OUTPUT=$(git worktree remove $branch 2>&1)
+
+        # if the worktree was removed successfully => prune and return
+        [ -z $WORKTREE_REMOVE_OUTPUT ] && colorful_echo "Worktree named '$branch' was removed successfully" && continue
+
+        colorful_echo "Worktree named '$branch' was not removed successfully" "RED"
+        colorful_echo $WORKTREE_REMOVE_OUTPUT "RED"
+    done
+
+    _wt_prune
+}
+
 wt() {
     if ! hash fzf 2>/dev/null; then
         colorful_echo "You need to install fzf: https://github.com/junegunn/fzf" "RED"
@@ -278,6 +316,8 @@ wt() {
         _wt_add ${@:2} # pass all arguments except the first one(add)
     elif [ $OPERATION = "remove" ]; then
         _wt_remove
+    elif [ $OPERATION = "clean" ]; then
+        _wt_clean
     else
         _help
     fi

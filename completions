@@ -27,6 +27,7 @@ _wt_default_completions() {
         "fetch: Fetch branches from the bare repository"
         "add: Create new working tree"
         "remove: Remove a working tree"
+        "clean: Remove all working trees that do not have a corresponding remote branch"
         "upgrade: Upgrade zsh-git-worktree plugin"
     )
 
