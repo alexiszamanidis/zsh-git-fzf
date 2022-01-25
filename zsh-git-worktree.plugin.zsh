@@ -218,24 +218,15 @@ _bare_repo_fetch() {
     git fetch --all --prune > /dev/null
 }
 
+# TODO: is there a better way to implement this??
 _move_to_bare_repo() {
-    local IS_BARE_REPO=$(_is_bare_repo)
+    local BARE_REPO_PATH=$(eval git worktree list | awk '/bare/{print $1}')
 
-    if [ $IS_BARE_REPO = "true" ]; then
-        # echo "Found bare repository: $PWD"
-        return 0
-    elif [ $PWD = "/" ]; then
-        echo "Bare repository does not exist" > /dev/stderr
-        return 1
-    fi
+    [ -z $BARE_REPO_PATH ] && echo "Bare repository does not exist" > /dev/stderr && return 1
 
-    pushd .. > /dev/null
-    _move_to_bare_repo
-}
-
-# TODO refactor and use this function instead of holding the path(e.g. HOLD_PATH)
-_popd_until_stack_is_empty() {
-    while (( $? == 0 )); do popd; done
+    # echo "Found bare repository: $BARE_REPO_PATH"
+    pushd $BARE_REPO_PATH > /dev/null
+    return 0
 }
 
 _get_current_folder_name() {
@@ -279,7 +270,7 @@ wt() {
 
     local IS_GIT_REPOSITORY="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
     if [[ ! $IS_GIT_REPOSITORY ]]; then
-        colorful_echo "wt: not a git repository" "RED"
+        colorful_echo "You need to be inside a git repository" "RED"
         return 1
     fi
 
