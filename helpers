@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 colorful_echo() {
-    GREEN="\033[0;32m"
+    GREEN="\033[0;32m" # default color
     RED="\033[0;31m"
     NC="\033[0m" # No Color
 
     if [ "$#" -eq 1 ]; then
-        echo -e $1
+        echo -e "${GREEN}$1${NC}"
     elif [ "$2" = "GREEN" ]; then
         echo -e "${GREEN}$1${NC}"
     elif [ "$2" = "RED" ]; then

@@ -49,7 +49,7 @@ _wt_remove() {
     # if the worktree was removed successfully => prune and return
     [ -z $WORKTREE_REMOVE_OUTPUT ] && _wt_prune && return 0
 
-    echo $WORKTREE_REMOVE_OUTPUT
+    colorful_echo $WORKTREE_REMOVE_OUTPUT "RED"
 
     local UNTRACKED_OR_MODIFIED_FILES="fatal: '$WORKTREE_BRANCH' contains modified or untracked files, use --force to delete it"
 
@@ -119,7 +119,7 @@ _wt_add() {
                 pushd $HOLD_PATH > /dev/null
                 return 1
             fi
-            colorful_echo "Creating worktree from remote branch" "GREEN"
+            colorful_echo "Creating worktree from remote branch"
             git worktree add $NEW_WORKTREE_PATH
             git branch --set-upstream-to=origin/$BRANCH_NAME $BRANCH_NAME
             pushd $NEW_WORKTREE_PATH > /dev/null
@@ -133,7 +133,7 @@ _wt_add() {
                 return 1
             fi
 
-            colorful_echo "Creating worktree from local branch" "GREEN"
+            colorful_echo "Creating worktree from local branch"
 
             local WORKTREE_PATH=$(echo $WORKTREE | awk '{print $1;}')
 
@@ -157,7 +157,7 @@ _wt_add() {
             pushd $HOLD_PATH > /dev/null
             return 1
         fi
-        colorful_echo "Creating worktree from remote branch" "GREEN"
+        colorful_echo "Creating worktree from remote branch"
         git worktree add --track -b $BRANCH_NAME $NEW_WORKTREE_PATH origin/$REMOTE_BRANCH_NAME
         git push --set-upstream origin $BRANCH_NAME
     fi
@@ -224,9 +224,9 @@ _bare_repo_fetch() {
 _move_to_bare_repo() {
     local BARE_REPO_PATH=$(eval git worktree list | awk '/bare/{print $1}')
 
-    [ -z $BARE_REPO_PATH ] && echo "Bare repository does not exist" > /dev/stderr && return 1
+    [ -z $BARE_REPO_PATH ] && colorful_echo "Bare repository does not exist" "RED" > /dev/stderr && return 1
 
-    # echo "Found bare repository: $BARE_REPO_PATH"
+    # colorful_echo "Found bare repository: $BARE_REPO_PATH"
     pushd $BARE_REPO_PATH > /dev/null
     return 0
 }
@@ -242,13 +242,13 @@ _upgrade_plugin() {
 
     if [ -z "$diffs" ]
     then
-        colorful_echo "Already up to date" "GREEN"
+        colorful_echo "Already up to date"
         pushd $HOLD_PATH > /dev/null
         return 0
     fi
 
     git pull
-    colorful_echo "zsh-git-worktree plugin has been upgraded successfully. Restart your shell or reload config file(.zshrc)." "GREEN"
+    colorful_echo "zsh-git-worktree plugin has been upgraded successfully. Restart your shell or reload config file(.zshrc)."
     pushd $HOLD_PATH > /dev/null
 }
 
