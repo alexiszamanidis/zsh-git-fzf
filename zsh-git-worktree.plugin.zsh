@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-source ~/.oh-my-zsh/custom/plugins/zsh-git-worktree/helpers
+source ~/.oh-my-zsh/custom/plugins/zsh-git-worktree/src/helpers
 source ~/.oh-my-zsh/custom/plugins/zsh-git-worktree/completions
 
 local FZF_OPTIONS="--no-preview"

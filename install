@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source ~/.oh-my-zsh/custom/plugins/zsh-git-worktree/helpers
+source ~/.oh-my-zsh/custom/plugins/zsh-git-worktree/src/helpers
 
 colorful_echo "Install fzf\n"
 
