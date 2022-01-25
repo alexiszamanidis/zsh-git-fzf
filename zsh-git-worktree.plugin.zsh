@@ -164,6 +164,7 @@ _wt_add() {
 
     # if there is an installation script, execute it
     # TODO pass installation script as an argument(absolute path?)
+    # Is there a git hook for this process?
     if [ -f $NEW_WORKTREE_PATH/install ]; then
         chmod +x $NEW_WORKTREE_PATH/install
         $NEW_WORKTREE_PATH/install
@@ -171,6 +172,7 @@ _wt_add() {
 
     # if there is a custom editor, open the worktree
     # TODO edge case for vim, which is a terminal editor
+    # Do I actualy need this?? Maybe this command can be included in the installation script!?!
     # if [ ! -z $EDITOR ]
     # then
     #     eval $EDITOR $NEW_WORKTREE_PATH
@@ -227,14 +229,6 @@ _move_to_bare_repo() {
     # echo "Found bare repository: $BARE_REPO_PATH"
     pushd $BARE_REPO_PATH > /dev/null
     return 0
-}
-
-_get_current_folder_name() {
-    echo $(eval basename $PWD)
-}
-
-_is_bare_repo() {
-    echo $(eval git rev-parse --is-bare-repository)
 }
 
 _upgrade_plugin() {
