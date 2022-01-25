@@ -268,6 +268,11 @@ _upgrade_plugin() {
 }
 
 wt() {
+    if ! hash fzf 2>/dev/null; then
+        colorful_echo "You need to install fzf: https://github.com/junegunn/fzf" "RED"
+        return 1
+    fi
+
     local OPERATION=$1
     [ -z $OPERATION ] && _help && return 0
     [ $OPERATION = "upgrade" ] && _upgrade_plugin && return 0
