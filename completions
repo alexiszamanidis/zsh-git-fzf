@@ -1,24 +1,27 @@
 #!/usr/bin/env zsh
 
-_wt_operation() {
+_operation() {
   echo "${words[2]}"
 }
 
-_wt_number_of_args() {
+_number_of_args() {
   echo "$#words"
 }
 
 _wt_add_operation_completions() {
     local options
 
-    [[ "$(_wt_number_of_args)" = "3" ]] && options=("new-branch: The name of the new branch you want to create")
+    [[ "$(_number_of_args)" = "4" ]] && options=("new-branch: The name of the new branch you want to create")
 
-    [[ "$(_wt_number_of_args)" = "4" ]] && options=("remote-branch: The name of the remote branch that we want to check out")
+    [[ "$(_number_of_args)" = "5" ]] && options=("remote-branch: The name of the remote branch that we want to check out")
 
     _describe "operations" options
 }
 
-_wt_default_completions() {
+_worktree-operations() {
+    # git-fzf worktree add
+    [[ "$(_number_of_args)" -ge "4" ]] && [[ "${words[3]}" = "add" ]] && _wt_add_operation_completions && return
+
     local operations
 
     operations=(
@@ -34,14 +37,24 @@ _wt_default_completions() {
     _describe "operations" operations
 }
 
-_wt() {
-    case "$(_wt_operation)" in
-        add)
-        _wt_add_operation_completions
+_git-fzf-operations() {
+    local operations
+
+    operations=(
+        "worktree: Worktree operations"
+    )
+
+    _describe "operations" operations
+}
+
+_git-fzf() {
+    case "$(_operation)" in
+        worktree)
+        _worktree-operations
         ;;
     esac
 
-    [[ "$(_wt_number_of_args)" = "2" ]] &&  _wt_default_completions
+    [[ "$(_number_of_args)" = "2" ]] &&  _git-fzf-operations
 }
 
-compdef _wt wt
+compdef _git-fzf git-fzf
