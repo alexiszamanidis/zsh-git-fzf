@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
-source ~/.oh-my-zsh/custom/plugins/zsh-git-worktree/helpers
-source ~/.oh-my-zsh/custom/plugins/zsh-git-worktree/completions
+source ${ZSH_CUSTOM}/plugins/zsh-git-worktree/helpers
+source ${ZSH_CUSTOM}/plugins/zsh-git-worktree/completions
 
 local FZF_OPTIONS="--no-preview"
 
@@ -249,7 +249,7 @@ _is_bare_repo() {
 _upgrade_plugin() {
     local HOLD_PATH=$PWD
 
-    pushd ~/.oh-my-zsh/custom/plugins/zsh-git-worktree > /dev/null
+    pushd ${ZSH_CUSTOM}/plugins/zsh-git-worktree > /dev/null
 
     # TODO: is there anything better than this? for checking if the repository needs pull
     git fetch &> /dev/null
