@@ -48,7 +48,7 @@ _worktree_remove() {
     local WORKTREE_REMOVE_OUTPUT=$(git worktree remove $WORKTREE_BRANCH 2>&1)
 
     # if the worktree was removed successfully => prune and return
-    [ -z $WORKTREE_REMOVE_OUTPUT ] && _worktree_prune && return 0
+    [ -z $WORKTREE_REMOVE_OUTPUT ] && _worktree_prune && colorful_echo "Worktree named '$WORKTREE_BRANCH' was removed successfully" && return 0
 
     colorful_echo $WORKTREE_REMOVE_OUTPUT "RED"
 
