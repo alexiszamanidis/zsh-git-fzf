@@ -37,46 +37,41 @@ rm -rf ./install
 plugins=(zsh-git-worktree)
 ```
 
+3. Restart your shell or reload config file(.zshrc)
+
 ## Usage
 
-After installing the plugin you can execute **wt help** to check the operations that are provided:
+After installing the plugin you can execute **git-fzf help** to check the operations that are provided:
 
-```
-Usage:
-    wt list: List details of each working tree. Press ESC to exit or select a worktree to move into it
-    wt prune: Prune working tree information
-    wt fetch: Fetch branches from the bare repository
-    wt add <worktree-name> <(optional-)remote-worktree-name>: Create new working tree
-    wt remove: Remove a working tree
-    wt upgrade: Upgrade zsh-git-worktree plugin
-```
+**git-fzf worktree**
 
-**wt add**
+-   **add**
 
--   Checkout new branch from a **remote branch**:
-    -   Run the following command: `wt add <-new-branch-> <-remote-branch->`
-    -   After executing the command above, you will be moved into the new working tree
--   Checkout **remote branch**:
-    -   Run the following command: `wt add <-remote-branch->`
-    -   After executing the command above, close the fzf by pressing `ESC` and you will be moved into the new working tree
--   Checkout new branch from a **local branch**:
-    -   Run the following command: `wt add <-new-branch->`
-    -   After executing the command above, select a working tree from the fzf results and you will be moved into the new working tree
+    -   Checkout new branch from a **remote branch**:
+        -   Run the following command: `wt add [new-branch] [remote-branch(optional)]`
+        -   After executing the command above, you will be moved into the new working tree
+    -   Checkout **remote branch**:
+        -   Run the following command: `wt add [remote-branch]`
+        -   After executing the command above, close the fzf by pressing `ESC` and you will be moved into the new working tree
+    -   Checkout new branch from a **local branch**:
 
-**wt delete**
+        -   Run the following command: `wt add [new-branch]`
+        -   After executing the command above, select a working tree from the fzf results and you will be moved into the new working tree
 
--   Remove a worktree
-    -   Run the following command: `wt remove`
-    -   After executing the command above, select a working tree from the fzf results and the selected worktree will be removed
+-   **remove**
 
-**wt list**
+    -   Remove a worktree
+        -   Run the following command: `wt remove`
+        -   After executing the command above, select a working tree from the fzf results and the selected worktree will be removed
 
--   List all worktrees
-    -   Run the following command: `wt list`
-    -   After executing the command above, close the fzf by pressing `ESC`
--   Switch worktree
-    -   Run the following command: `wt list`
-    -   After executing the command above, select a working tree from the fzf results and you will be moved into the selected working tree
+-   **list**
+
+    -   List all worktrees
+        -   Run the following command: `wt list`
+        -   After executing the command above, close the fzf by pressing `ESC`
+    -   Switch worktree
+        -   Run the following command: `wt list`
+        -   After executing the command above, select a working tree from the fzf results and you will be moved into the selected working tree
 
 ## Assumptions
 
@@ -85,7 +80,7 @@ This is the first version of the plugin, so you need to make some assumptions to
 -   Make sure your working repository is bare
 
 ```
-git clone --bare <your-repository>
+git clone --bare [your-repository]
 ```
 
 -   If you want to execute a project set-up script after creating a new work tree, you need to add it to your repository as 'install'.

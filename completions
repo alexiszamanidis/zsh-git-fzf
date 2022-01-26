@@ -31,7 +31,6 @@ _worktree-operations() {
         "add: Create new working tree"
         "remove: Remove a working tree"
         "clean: Remove all working trees that do not have a corresponding remote branch"
-        "upgrade: Upgrade zsh-git-worktree plugin"
     )
 
     _describe "operations" operations
@@ -42,6 +41,8 @@ _git-fzf-operations() {
 
     operations=(
         "worktree: Worktree operations"
+        "upgrade: Upgrade zsh-git-fzf plugin"
+        "help: Display all the operations that are wrapped"
     )
 
     _describe "operations" operations

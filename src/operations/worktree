@@ -5,15 +5,14 @@ source ~/.oh-my-zsh/custom/plugins/zsh-git-worktree/completions
 
 local FZF_OPTIONS="--no-preview"
 
-_help() {
-    echo "Usage:"
-    echo -e "\tworktree list: List details of each working tree. Press ESC to exit or select a worktree to move into it"
-    echo -e "\tworktree prune: Prune working tree information"
-    echo -e "\tworktree fetch: Fetch branches from the bare repository"
-    echo -e "\tworktree add <worktree-name> <(optional-)remote-worktree-name>: Create new working tree"
-    echo -e "\tworktree remove: Remove a working tree"
-    echo -e "\tworktree clean: Remove all working trees that do not have a corresponding remote branch"
-    echo -e "\tworktree upgrade: Upgrade zsh-git-worktree plugin"
+_worktree_help() {
+    echo "Worktree Usage:"
+    echo -e "\tgit-fzf worktree list: List details of each working tree. Press ESC to exit or select a worktree to move into it"
+    echo -e "\tgit-fzf worktree prune: Prune working tree information"
+    echo -e "\tgit-fzf worktree fetch: Fetch branches from the bare repository"
+    echo -e "\tgit-fzf worktree add [new-branch] [remote-branch(optional)]: Create new working tree"
+    echo -e "\tgit-fzf worktree remove: Remove a working tree"
+    echo -e "\tgit-fzf worktree clean: Remove all working trees that do not have a corresponding remote branch"
 }
 
 _worktree_list() {
@@ -233,27 +232,6 @@ _move_to_bare_repo() {
     return 0
 }
 
-_upgrade_plugin() {
-    local HOLD_PATH=$PWD
-
-    pushd ~/.oh-my-zsh/custom/plugins/zsh-git-worktree > /dev/null
-
-    # TODO: is there anything better than this? for checking if the repository needs pull
-    git fetch &> /dev/null
-    diffs=$(git diff main origin/main)
-
-    if [ -z "$diffs" ]
-    then
-        colorful_echo "Already up to date"
-        pushd $HOLD_PATH > /dev/null
-        return 0
-    fi
-
-    git pull
-    colorful_echo "zsh-git-worktree plugin has been upgraded successfully. Restart your shell or reload config file(.zshrc)."
-    pushd $HOLD_PATH > /dev/null
-}
-
 _worktree_clean() {
     # awk '$3{print $3}!$3{print "(bare)"}' => there is not a 3rd column in bare repo, so we return (bare)
     # sed 's:^.\(.*\).$:\1:' => remove first and last character(e.g. [main] => main)
@@ -297,8 +275,7 @@ _worktree() {
     fi
 
     local OPERATION=$1
-    [ -z $OPERATION ] && _help && return 0
-    [ $OPERATION = "upgrade" ] && _upgrade_plugin && return 0
+    [ -z $OPERATION ] && _worktree_help && return 0
 
     local IS_GIT_REPOSITORY="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
     if [[ ! $IS_GIT_REPOSITORY ]]; then
@@ -319,6 +296,6 @@ _worktree() {
     elif [ $OPERATION = "clean" ]; then
         _worktree_clean
     else
-        _help
+        _worktree_help
     fi
 }
