@@ -10,7 +10,7 @@ A ZSH plugin that wraps some git worktree operations for simplicity and producti
 -   No need to `cd` around. After you have created a git worktree you will be moved into it
 -   Easy setup for your project after you create an installation script named `install` in the root folder of the repository
 -   You will never stash your changes again
--   Plugin completions. After typing `wt ` press `TAB` to view the completions
+-   Plugin completions. After typing `git-fzf ` or `gfzf `, press `TAB` to view the completions
 
 ## Dependencies
 
@@ -48,29 +48,29 @@ After installing the plugin you can execute **git-fzf help** to check the operat
 -   **add**
 
     -   Checkout new branch from a **remote branch**:
-        -   Run the following command: `wt add [new-branch] [remote-branch(optional)]`
+        -   Run the following command: `git-fzf worktree add [new-branch] [remote-branch(optional)]`
         -   After executing the command above, you will be moved into the new working tree
     -   Checkout **remote branch**:
-        -   Run the following command: `wt add [remote-branch]`
+        -   Run the following command: `git-fzf worktree add [remote-branch]`
         -   After executing the command above, close the fzf by pressing `ESC` and you will be moved into the new working tree
     -   Checkout new branch from a **local branch**:
 
-        -   Run the following command: `wt add [new-branch]`
+        -   Run the following command: `git-fzf worktree add [new-branch]`
         -   After executing the command above, select a working tree from the fzf results and you will be moved into the new working tree
 
 -   **remove**
 
     -   Remove a worktree
-        -   Run the following command: `wt remove`
+        -   Run the following command: `git-fzf worktree remove`
         -   After executing the command above, select a working tree from the fzf results and the selected worktree will be removed
 
 -   **list**
 
     -   List all worktrees
-        -   Run the following command: `wt list`
+        -   Run the following command: `git-fzf worktree list`
         -   After executing the command above, close the fzf by pressing `ESC`
     -   Switch worktree
-        -   Run the following command: `wt list`
+        -   Run the following command: `git-fzf worktree list`
         -   After executing the command above, select a working tree from the fzf results and you will be moved into the selected working tree
 
 ## Assumptions

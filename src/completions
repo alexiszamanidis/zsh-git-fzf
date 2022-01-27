@@ -8,7 +8,7 @@ _number_of_args() {
   echo "$#words"
 }
 
-_wt_add_operation_completions() {
+_worktree_add_operation_completions() {
     local options
 
     [[ "$(_number_of_args)" = "4" ]] && options=("new-branch: The name of the new branch you want to create")
@@ -20,7 +20,7 @@ _wt_add_operation_completions() {
 
 _worktree-operations() {
     # git-fzf worktree add
-    [[ "$(_number_of_args)" -ge "4" ]] && [[ "${words[3]}" = "add" ]] && _wt_add_operation_completions && return
+    [[ "$(_number_of_args)" -ge "4" ]] && [[ "${words[3]}" = "add" ]] && _worktree_add_operation_completions && return
 
     local operations
 
