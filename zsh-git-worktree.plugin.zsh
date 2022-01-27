@@ -5,7 +5,7 @@ source ~/.oh-my-zsh/custom/plugins/zsh-git-worktree/src/operations/worktree
 _help() {
     echo "Usage:"
     echo -e "\tgit-fzf worktree: Worktree operations"
-    echo -e "\tgit-fzf help: Display all the operations that are wrapped"
+    echo -e "\tgit-fzf upgrade: Upgrade zsh-git-fzf plugin"
 }
 
 _upgrade_plugin() {

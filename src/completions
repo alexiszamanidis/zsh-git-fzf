@@ -42,7 +42,6 @@ _git-fzf-operations() {
     operations=(
         "worktree: Worktree operations"
         "upgrade: Upgrade zsh-git-fzf plugin"
-        "help: Display all the operations that are wrapped"
     )
 
     _describe "operations" operations
