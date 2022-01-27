@@ -1,4 +1,4 @@
-# zsh-git-worktree
+# zsh-git-fzf
 
 A ZSH plugin that wraps some git worktree operations for simplicity and productivity. Also, it combines the FZF tool to make the git worktree operations more convenient.
 
@@ -22,7 +22,7 @@ A ZSH plugin that wraps some git worktree operations for simplicity and producti
 1. Install Plugin
 
 ```
-wget -q https://raw.githubusercontent.com/alexiszamanidis/zsh-git-worktree/main/install -O install && \
+wget -q https://raw.githubusercontent.com/alexiszamanidis/zsh-git-fzf/main/install -O install && \
 chmod +x install && \
 ./install && \
 rm -rf ./install
@@ -34,10 +34,10 @@ rm -rf ./install
 -   Add plugin to plugin list
 
 ```
-plugins=(zsh-git-worktree)
+plugins=(zsh-git-fzf)
 ```
 
-3. Restart your shell or reload config file(.zshrc)
+3. Restart your shell or reload config file(source ~/.zshrc)
 
 ## Usage
 
@@ -92,7 +92,7 @@ you-repository-folder/
 
 ## Demo
 
-![zsh-git-worktree](https://user-images.githubusercontent.com/48658768/147582012-636af175-f296-44c7-b412-8e55117b7931.gif)
+![zsh-git-fzf](https://user-images.githubusercontent.com/48658768/147582012-636af175-f296-44c7-b412-8e55117b7931.gif)
 
 ## Contribution
 
@@ -108,4 +108,4 @@ you-repository-folder/
 
 ## License
 
-[MIT © Alexis Zamanidis](https://github.com/alexiszamanidis/zsh-git-worktree/blob/main/LICENSE)
+[MIT © Alexis Zamanidis](https://github.com/alexiszamanidis/zsh-git-fzf/blob/main/LICENSE)

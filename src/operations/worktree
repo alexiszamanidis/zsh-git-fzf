@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-source ~/.oh-my-zsh/custom/plugins/zsh-git-worktree/src/helpers
-source ~/.oh-my-zsh/custom/plugins/zsh-git-worktree/src/completions
+source ~/.oh-my-zsh/custom/plugins/zsh-git-fzf/src/helpers
+source ~/.oh-my-zsh/custom/plugins/zsh-git-fzf/src/completions
 
 local FZF_OPTIONS="--no-preview"
 

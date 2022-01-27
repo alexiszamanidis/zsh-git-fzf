@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-source ~/.oh-my-zsh/custom/plugins/zsh-git-worktree/src/operations/worktree
+source ~/.oh-my-zsh/custom/plugins/zsh-git-fzf/src/operations/worktree
 
 _help() {
     echo "Usage:"
@@ -11,7 +11,7 @@ _help() {
 _upgrade_plugin() {
     local HOLD_PATH=$PWD
 
-    pushd ~/.oh-my-zsh/custom/plugins/zsh-git-worktree > /dev/null
+    pushd ~/.oh-my-zsh/custom/plugins/zsh-git-fzf > /dev/null
 
     # TODO: is there anything better than this? for checking if the repository needs pull
     git fetch &> /dev/null
@@ -25,7 +25,7 @@ _upgrade_plugin() {
     fi
 
     git pull
-    colorful_echo "zsh-git-fzf plugin has been upgraded successfully. Restart your shell or reload config file(.zshrc)."
+    colorful_echo "zsh-git-fzf plugin has been upgraded successfully. Restart your shell or reload config file(source ~/.zshrc)."
     pushd $HOLD_PATH > /dev/null
 }
 
