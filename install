@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-source ~/.oh-my-zsh/custom/plugins/zsh-git-fzf/src/helpers
-
-colorful_echo "Install fzf\n"
+echo -e "Install fzf\n"
 
 if [ -d ~/.fzf ] ; then
     pushd ~/.fzf > /dev/null
@@ -14,17 +12,17 @@ else
     ~/.fzf/install
 fi
 
-colorful_echo "Install zsh-git-fzf plugin\n"
+echo -e "Install zsh-git-fzf plugin\n"
 
 if [ -d ~/.oh-my-zsh/custom/plugins/zsh-git-fzf ] ; then
     pushd ~/.oh-my-zsh/custom/plugins/zsh-git-fzf > /dev/null
     git pull
-    colorful_echo "Restart your shell or reload config file(source ~/.zshrc)"
+    echo -e "Restart your shell or reload config file(source ~/.zshrc)"
     popd > /dev/null
 else
     git clone https://github.com/alexiszamanidis/zsh-git-fzf.git ~/.oh-my-zsh/custom/plugins/zsh-git-fzf
-    colorful_echo "Add plugin to plugin list:"
-    colorful_echo "- Open .zshrc(e.g. code .zshrc, vim .zshrc)"
-    colorful_echo " - Add plugin to plugin list: 'plugins=(zsh-git-fzf)'"
-    colorful_echo " - Restart your shell or reload config file(source ~/.zshrc)"
+    echo -e "Add plugin to plugin list:"
+    echo -e "- Open .zshrc(e.g. code .zshrc, vim .zshrc)"
+    echo -e " - Add plugin to plugin list: 'plugins=(zsh-git-fzf)'"
+    echo -e " - Restart your shell or reload config file(source ~/.zshrc)"
 fi
