@@ -1,10 +1,12 @@
 #!/usr/bin/env zsh
 
 source ~/.oh-my-zsh/custom/plugins/zsh-git-fzf/src/operations/worktree
+source ~/.oh-my-zsh/custom/plugins/zsh-git-fzf/src/operations/status
 
 _help() {
     echo "Usage:"
     echo -e "\tgit-fzf worktree: Worktree operations"
+    echo -e "\tgit-fzf upgrade: Displays paths that have differences between the index file and the current HEAD commit"
     echo -e "\tgit-fzf upgrade: Upgrade zsh-git-fzf plugin"
 }
 
@@ -47,6 +49,8 @@ git-fzf() {
 
     if [ $OPERATION = "worktree" ]; then
         _worktree ${@:2} # pass all arguments except the first one(add)
+    elif [ $OPERATION = "status" ]; then
+        _status
     else
         _help
     fi

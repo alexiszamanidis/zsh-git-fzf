@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+_status() {
+    git ls-files -m -o --exclude-standard | fzf
+}
