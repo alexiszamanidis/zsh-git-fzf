@@ -3,12 +3,14 @@
 source ~/.oh-my-zsh/custom/plugins/zsh-git-fzf/src/operations/worktree
 source ~/.oh-my-zsh/custom/plugins/zsh-git-fzf/src/operations/status
 source ~/.oh-my-zsh/custom/plugins/zsh-git-fzf/src/operations/branch
+source ~/.oh-my-zsh/custom/plugins/zsh-git-fzf/src/operations/checkout
 
 _help() {
     echo "Usage:"
     echo -e "\tgit-fzf worktree: Worktree operations"
-    echo -e "\tgit-fzf status: Displays paths that have differences between the index file and the current HEAD commit"
-    echo -e "\tgit-fzf branch: Displays both local and remote branches"
+    echo -e "\tgit-fzf status: Show paths that have differences between the index file and the current HEAD commit"
+    echo -e "\tgit-fzf branch: Show both local and remote branches"
+    echo -e "\tgit-fzf checkout: Switch branches"
     echo -e "\tgit-fzf upgrade: Upgrade zsh-git-fzf plugin"
 }
 
@@ -55,6 +57,8 @@ git-fzf() {
         _status
     elif [ $OPERATION = "branch" ]; then
         _branch
+    elif [ $OPERATION = "checkout" ]; then
+        _checkout
     else
         _help
     fi

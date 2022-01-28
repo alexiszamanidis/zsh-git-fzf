@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+source ~/.oh-my-zsh/custom/plugins/zsh-git-fzf/src/operations/branch
+
+_checkout() {
+    local branch=$(_branch)
+
+    [[ "$branch" = "" ]] && return
+
+    if [[ "$branch" = 'remotes/'* ]]; then
+        git checkout --track $branch
+    else
+        git checkout $branch;
+    fi
+}
