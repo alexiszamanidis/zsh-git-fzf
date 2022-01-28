@@ -124,7 +124,6 @@ _worktree_add() {
             git branch --set-upstream-to=origin/$BRANCH_NAME $BRANCH_NAME
             pushd $NEW_WORKTREE_PATH > /dev/null
             git pull
-            return 0
         else
             # otherwise create a worktree from a local branch
 
@@ -216,14 +215,16 @@ _remove_local_that_do_not_exist_on_remote_repository() {
 
 _bare_repo_fetch() {
     local REMOTE_ORIGIN_FETCH=$(git config remote.origin.fetch)
-    [ $REMOTE_ORIGIN_FETCH != '+refs/heads/*:refs/remotes/origin/*' ] && git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
+    if [ -z $REMOTE_ORIGIN_FETCH ] || [ $REMOTE_ORIGIN_FETCH != "+refs/heads/*:refs/remotes/origin/*" ]; then
+        git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+    fi
     _remove_local_that_do_not_exist_on_remote_repository
     git fetch --all --prune > /dev/null
 }
 
 # TODO: is there a better way to implement this??
 _move_to_bare_repo() {
-    local BARE_REPO_PATH=$(eval git worktree list | awk '/bare/{print $1}')
+    local BARE_REPO_PATH=$(eval git worktree list | awk '/\(bare\)/{print $1}')
 
     [ -z $BARE_REPO_PATH ] && colorful_echo "Bare repository does not exist" "RED" > /dev/stderr && return 1
 
@@ -253,7 +254,7 @@ _worktree_clean() {
         BRANCHED_TO_BE_REMOVED+=($branch)
     done
 
-    [ -z $BRANCHED_TO_BE_REMOVED ] && colorful_echo "All worktrees have a corresponding remote branch" && return 0
+    [ ${#BRANCHED_TO_BE_REMOVED[@]} -eq 0 ] && colorful_echo "All worktrees have a corresponding remote branch" && return 0
 
     for branch in $BRANCHED_TO_BE_REMOVED; do
         local WORKTREE_REMOVE_OUTPUT=$(git worktree remove $branch 2>&1)
