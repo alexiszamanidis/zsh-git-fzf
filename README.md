@@ -1,16 +1,19 @@
 # zsh-git-fzf
 
-A ZSH plugin that wraps some git worktree operations for simplicity and productivity. Also, it combines the FZF tool to make the git worktree operations more convenient.
+A ZSH plugin that wraps git operations for simplicity and productivity. Also, it **contains completions** and **combines the FZF** tool to make the operations more convenient.
 
 **You can find my plugin listed among other useful plugin in the [awesome-zsh-plugins](https://github.com/unixorn/awesome-zsh-plugins) repository!**
 
-## Benefits
+### Benefits
 
--   Simpler API for git worktrees
--   No need to `cd` around. After you have created a git worktree you will be moved into it
--   Easy setup for your project after you create an installation script named `install` in the root folder of the repository
--   You will never stash your changes again
+-   Simplicity and Productivity
 -   Plugin completions. After typing `git-fzf ` or `gfzf `, press `TAB` to view the completions
+-   Search and suggestions
+-   git worktree
+    -   Simpler API
+    -   No need to `cd` around. After you have created a git worktree you will be moved into it
+    -   Easy setup for your project after you create an installation script named `install` in the root folder of the repository
+    -   You will never stash your changes again
 
 ## Dependencies
 
@@ -34,18 +37,28 @@ rm -rf ./install
 -   Add plugin to plugin list
 
 ```
-plugins=(zsh-git-fzf)
+plugins=(... zsh-git-fzf)
 ```
 
 3. Restart your shell or reload config file(source ~/.zshrc)
 
-## Usage
+# Usage
 
 After installing the plugin you can execute **git-fzf help** to check the operations that are provided:
 
-**git-fzf worktree**
+### Supported operations
 
--   **add**
+-   `git-fzf branch`
+
+    Search for both local and remote branches
+
+-   `git-fzf checkout`
+
+    Search for a branch and checkout into it
+
+-   `git-fzf worktree [worktree-operation]`
+
+    **add**
 
     -   Checkout new branch from a **remote branch**:
         -   Run the following command: `git-fzf worktree add [new-branch] [remote-branch(optional)]`
@@ -58,13 +71,13 @@ After installing the plugin you can execute **git-fzf help** to check the operat
         -   Run the following command: `git-fzf worktree add [new-branch]`
         -   After executing the command above, select a working tree from the fzf results and you will be moved into the new working tree
 
--   **remove**
+    **remove**
 
     -   Remove a worktree
         -   Run the following command: `git-fzf worktree remove`
         -   After executing the command above, select a working tree from the fzf results and the selected worktree will be removed
 
--   **list**
+    **list**
 
     -   List all worktrees
         -   Run the following command: `git-fzf worktree list`
@@ -72,6 +85,10 @@ After installing the plugin you can execute **git-fzf help** to check the operat
     -   Switch worktree
         -   Run the following command: `git-fzf worktree list`
         -   After executing the command above, select a working tree from the fzf results and you will be moved into the selected working tree
+
+    **clean**
+
+    -   Removes all working trees that do not have a corresponding remote repository
 
 ## Assumptions
 
@@ -101,10 +118,6 @@ you-repository-folder/
 -   Writing tests
 -   Sharing this project and recommending it to your friends
 -   Giving a star on this repository
-
-## References
-
--   [Git Worktree Documentation](https://git-scm.com/docs/git-worktree)
 
 ## License
 
