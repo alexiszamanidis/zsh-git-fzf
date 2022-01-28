@@ -42,6 +42,7 @@ _git-fzf-operations() {
     operations=(
         "worktree: Worktree operations"
         "status: Displays paths that have differences between the index file and the current HEAD commit"
+        "branch: Displays both local and remote branches"
         "upgrade: Upgrade zsh-git-fzf plugin"
     )
 
