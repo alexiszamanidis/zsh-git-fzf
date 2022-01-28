@@ -119,10 +119,6 @@ you-repository-folder/
 -   Sharing this project and recommending it to your friends
 -   Giving a star on this repository
 
-## References
-
--   [Git Worktree Documentation](https://git-scm.com/docs/git-worktree)
-
 ## License
 
 [MIT © Alexis Zamanidis](https://github.com/alexiszamanidis/zsh-git-fzf/blob/main/LICENSE)
