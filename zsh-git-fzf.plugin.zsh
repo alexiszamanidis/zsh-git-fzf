@@ -7,13 +7,14 @@ source ~/.oh-my-zsh/custom/plugins/zsh-git-fzf/src/operations/checkout
 source ~/.oh-my-zsh/custom/plugins/zsh-git-fzf/src/operations/diff
 
 _help() {
+    local PREFIX="git-fzf"
     echo "Usage:"
-    echo -e "\tgit-fzf worktree: Worktree operations"
-    echo -e "\tgit-fzf status: Show paths that have differences between the index file and the current HEAD commit"
-    echo -e "\tgit-fzf branch: Show both local and remote branches"
-    echo -e "\tgit-fzf checkout: Switch branches"
-    echo -e "\tgit-fzf diff: Show changes between commits, commit and working tree, etc"
-    echo -e "\tgit-fzf upgrade: Upgrade zsh-git-fzf plugin"
+    echo -e "\t${PREFIX} worktree: Worktree operations"
+    echo -e "\t${PREFIX} status: Show paths that have differences between the index file and the current HEAD commit"
+    echo -e "\t${PREFIX} branch: Show both local and remote branches"
+    echo -e "\t${PREFIX} checkout: Switch branches"
+    echo -e "\t${PREFIX} diff: Show changes between commits, commit and working tree, etc"
+    echo -e "\t${PREFIX} upgrade: Upgrade zsh-git-fzf plugin"
 }
 
 _upgrade_plugin() {

@@ -6,13 +6,14 @@ source ~/.oh-my-zsh/custom/plugins/zsh-git-fzf/src/completions
 local FZF_OPTIONS="--no-preview"
 
 _worktree_help() {
+    local PREFIX="git-fzf worktree"
     echo "Worktree Usage:"
-    echo -e "\tgit-fzf worktree list: List details of each working tree. Press ESC to exit or select a worktree to move into it"
-    echo -e "\tgit-fzf worktree prune: Prune working tree information"
-    echo -e "\tgit-fzf worktree fetch: Fetch branches from the bare repository"
-    echo -e "\tgit-fzf worktree add [new-branch] [remote-branch(optional)]: Create new working tree"
-    echo -e "\tgit-fzf worktree remove: Remove a working tree"
-    echo -e "\tgit-fzf worktree clean: Remove all working trees that do not have a corresponding remote branch"
+    echo -e "\t${PREFIX} list: List details of each working tree. Press ESC to exit or select a worktree to move into it"
+    echo -e "\t${PREFIX} prune: Prune working tree information"
+    echo -e "\t${PREFIX} fetch: Fetch branches from the bare repository"
+    echo -e "\t${PREFIX} add [new-branch] [remote-branch(optional)]: Create new working tree"
+    echo -e "\t${PREFIX} remove: Remove a working tree"
+    echo -e "\t${PREFIX} clean: Remove all working trees that do not have a corresponding remote branch"
 }
 
 _worktree_list() {
