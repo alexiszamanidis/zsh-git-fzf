@@ -23,6 +23,6 @@ else
     git clone https://github.com/alexiszamanidis/zsh-git-fzf.git ~/.oh-my-zsh/custom/plugins/zsh-git-fzf
     echo -e "Add plugin to plugin list:"
     echo -e "- Open .zshrc(e.g. code .zshrc, vim .zshrc)"
-    echo -e " - Add plugin to plugin list: 'plugins=(zsh-git-fzf)'"
+    echo -e " - Add plugin to plugin list: 'plugins=(... zsh-git-fzf)'"
     echo -e " - Restart your shell or reload config file(source ~/.zshrc)"
 fi
