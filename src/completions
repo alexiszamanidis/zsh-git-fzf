@@ -44,6 +44,7 @@ _git-fzf-operations() {
         "status: Show paths that have differences between the index file and the current HEAD commit"
         "branch: Show both local and remote branches"
         "checkout: Switch branch"
+        "diff: Show changes between commits, commit and working tree, etc"
         "upgrade: Upgrade zsh-git-fzf plugin"
     )
 
