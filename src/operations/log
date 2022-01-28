@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+_log() {
+    # filter by file string
+    local filter
+    # param existed, git log for file if existed
+    if [ -n $@ ] && [ -f $@ ]; then
+        filter="-- $@"
+    fi
+
+    local gitlog=(
+        git log
+        --graph --color=always
+        --format='%C(auto)%h %an %C(blue)%s %C(yellow)%cr'
+        $@
+    )
+
+    local fzf=(
+        fzf
+        --ansi --no-sort --reverse --tiebreak=index
+        --preview "f() { set -- \$(echo -- \$@ | grep -o '[a-f0-9]\{7\}'); [ \$# -eq 0 ] || git show --color=always \$1 $filter; }; f {}"
+        --bind "q:abort,enter:execute:
+                (grep -o '[a-f0-9]\{7\}' | head -1 |
+                xargs -I % sh -c 'git show --color=always | less -R') << 'FZF-EOF'
+                {}
+                FZF-EOF"
+    )
+
+    $gitlog | $fzf
+}

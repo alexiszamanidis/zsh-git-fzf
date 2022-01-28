@@ -45,6 +45,7 @@ _git-fzf-operations() {
         "branch: Show both local and remote branches"
         "checkout: Switch branch"
         "diff: Show changes between commits, commit and working tree, etc"
+        "log: Show commit logs"
         "upgrade: Upgrade zsh-git-fzf plugin"
     )
 
