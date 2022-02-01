@@ -74,4 +74,4 @@ git-fzf() {
 }
 
 alias gfzf="git-fzf"
-# alias gf="git-fzf"
+alias gf="git-fzf"

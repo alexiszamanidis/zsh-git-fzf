@@ -8,7 +8,7 @@ A ZSH plugin that wraps git operations for simplicity and productivity. Also, it
 
 -   Interactive
 -   Simplicity and Productivity
--   Plugin completions. After typing `git-fzf ` or `gfzf `, press `TAB` to view the completions
+-   Plugin completions. After typing `git-fzf `, `gfzf ` or `gf `, press `TAB` to view the completions
 -   git worktree
     -   Simpler API
     -   No need to `cd` around. After you have created a git worktree you will be moved into it
