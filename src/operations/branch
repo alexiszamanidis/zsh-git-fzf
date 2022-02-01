@@ -4,7 +4,7 @@ _branch() {
     git rev-parse HEAD > /dev/null 2>&1 || return
 
     git branch --color=always --all --sort=-committerdate |
-    grep -v HEAD | # filter out any branches branches with HEAD in it
-    fzf --ansi   | # do not parse ansi codes
-    sed "s/.* //"  # remove the asterisk and leading whitespace
+    grep -v HEAD              | # filter out any branches branches with HEAD in it
+    fzf --ansi --no-preview   | # do not parse ansi codes
+    sed "s/.* //"               # remove the asterisk and leading whitespace
 }
