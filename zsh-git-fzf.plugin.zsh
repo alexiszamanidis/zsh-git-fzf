@@ -9,7 +9,6 @@ source ~/.oh-my-zsh/custom/plugins/zsh-git-fzf/src/operations/log
 
 _help() {
     local PREFIX="git-fzf"
-    echo -e "alias git-fzf = gfzf = gf\n"
     echo "Usage:"
     echo -e "\t${PREFIX} worktree: Worktree operations"
     echo -e "\t${PREFIX} status: Show paths that have differences between the index file and the current HEAD commit"
