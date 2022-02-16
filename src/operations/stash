@@ -5,5 +5,7 @@ _stash() {
 
     [[ -z $STASH ]] && return
 
-    echo $STASH
+    local STASH_ID=$(echo $STASH | cut -d ":" -f 1)
+
+    git stash apply $STASH_ID
 }
