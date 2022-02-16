@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
 _stash() {
-    git stash list |
-    fzf --no-preview
+    local STASH=$(git stash list | fzf --no-preview)
+
+    [[ -z $STASH ]] && return
+
+    echo $STASH
 }
