@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+_stash() {
+    git stash list |
+    fzf --no-preview
+}
