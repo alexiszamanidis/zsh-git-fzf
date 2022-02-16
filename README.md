@@ -60,6 +60,10 @@ After installing the plugin you can execute **git-fzf help** to check the operat
 
     Show changes between commits, commit and working tree, etc
 
+-   `git-fzf stash`
+
+    Stash the changes in a dirty working directory away
+
 -   `git-fzf log`
 
     Show commit logs
