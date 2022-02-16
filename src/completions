@@ -45,7 +45,8 @@ _git-fzf-operations() {
         "branch: Show both local and remote branches"
         "checkout: Switch branch"
         "diff: Show changes between commits, commit and working tree, etc"
-        "stash: Stash the changes in a dirty working directory away"
+        "stash: Show stash entities"
+        "reflog: Show reflog entities"
         "log: Show commit logs"
         "upgrade: Upgrade zsh-git-fzf plugin"
     )

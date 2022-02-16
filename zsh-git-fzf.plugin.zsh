@@ -7,6 +7,7 @@ source ~/.oh-my-zsh/custom/plugins/zsh-git-fzf/src/operations/checkout
 source ~/.oh-my-zsh/custom/plugins/zsh-git-fzf/src/operations/diff
 source ~/.oh-my-zsh/custom/plugins/zsh-git-fzf/src/operations/log
 source ~/.oh-my-zsh/custom/plugins/zsh-git-fzf/src/operations/stash
+source ~/.oh-my-zsh/custom/plugins/zsh-git-fzf/src/operations/reflog
 
 _help() {
     local PREFIX="git-fzf"
@@ -18,7 +19,8 @@ _help() {
     echo -e "\t${PREFIX} branch: Show both local and remote branches"
     echo -e "\t${PREFIX} checkout: Switch branches"
     echo -e "\t${PREFIX} diff: Show changes between commits, commit and working tree, etc"
-    echo -e "\t${PREFIX} stash: Stash the changes in a dirty working directory away"
+    echo -e "\t${PREFIX} stash: Show stash entities"
+    echo -e "\t${PREFIX} reflog: Show reflog entities"
     echo -e "\t${PREFIX} log: Show commit logs"
     echo -e "\t${PREFIX} upgrade: Upgrade zsh-git-fzf plugin"
 }
@@ -72,6 +74,8 @@ git-fzf() {
         _diff
     elif [ $OPERATION = "stash" ]; then
         _stash
+    elif [ $OPERATION = "reflog" ]; then
+        _reflog
     elif [ $OPERATION = "log" ]; then
         _log
     else

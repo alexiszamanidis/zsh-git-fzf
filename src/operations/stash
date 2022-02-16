@@ -1,11 +1,5 @@
 #!/usr/bin/env bash
 
 _stash() {
-    local STASH=$(git stash list | fzf --no-preview)
-
-    [[ -z $STASH ]] && return
-
-    local STASH_ID=$(echo $STASH | cut -d ":" -f 1)
-
-    git stash apply $STASH_ID
+    git stash list | fzf --no-preview
 }

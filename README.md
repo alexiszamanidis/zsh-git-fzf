@@ -62,7 +62,11 @@ After installing the plugin you can execute **git-fzf help** to check the operat
 
 -   `git-fzf stash`
 
-    Stash the changes in a dirty working directory away
+    Show stash entities
+
+-   `git-fzf reflog`
+
+    Show reflog entities
 
 -   `git-fzf log`
 

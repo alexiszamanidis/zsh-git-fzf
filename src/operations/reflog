@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+_reflog() {
+    git reflog | fzf --no-preview
+}
