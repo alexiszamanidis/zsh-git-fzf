@@ -25,7 +25,7 @@ A ZSH plugin that wraps git operations for simplicity and productivity. Also, it
 1. Install Plugin
 
 ```
-wget -q https://raw.githubusercontent.com/alexiszamanidis/zsh-git-fzf/main/install -O install && \
+wget -q https://raw.githubusercontent.com/alexiszamanidis/zsh-git-fzf/master/install -O install && \
 chmod +x install && \
 ./install && \
 rm -rf ./install
@@ -137,4 +137,4 @@ you-repository-folder/
 
 ## License
 
-[MIT © Alexis Zamanidis](https://github.com/alexiszamanidis/zsh-git-fzf/blob/main/LICENSE)
+[MIT © Alexis Zamanidis](https://github.com/alexiszamanidis/zsh-git-fzf/blob/master/LICENSE)

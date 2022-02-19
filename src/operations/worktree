@@ -236,7 +236,7 @@ _move_to_bare_repo() {
 
 _worktree_clean() {
     # awk '$3{print $3}!$3{print "(bare)"}' => there is not a 3rd column in bare repo, so we return (bare)
-    # sed 's:^.\(.*\).$:\1:' => remove first and last character(e.g. [main] => main)
+    # sed 's:^.\(.*\).$:\1:' => remove first and last character(e.g. [master] => master)
     local BRANCHES_NAMES=$(git worktree list | awk '$3{print $3}!$3{print "(bare)"}' | sed 's:^.\(.*\).$:\1:')
 
     local BRANCHES=()

@@ -32,7 +32,7 @@ _upgrade_plugin() {
 
     # TODO: is there anything better than this? for checking if the repository needs pull
     git fetch &> /dev/null
-    diffs=$(git diff main origin/main)
+    diffs=$(git diff master origin/master)
 
     if [ -z "$diffs" ]
     then
