@@ -8,7 +8,7 @@ A ZSH plugin that wraps git operations for simplicity and productivity. Also, it
 
 -   Interactive
 -   Simplicity and Productivity
--   Plugin completions. After typing `git-fzf `, `gfzf ` or `gf `, press `TAB` to view the completions
+-   Plugin completions. After typing `git-fzf `, `gfzf ` or `gf `, press `TAB` to view the completions ([Demo](https://github.com/alexiszamanidis/zsh-git-fzf/blob/master/DEMO.md#completions))
 -   git worktree
     -   Simpler API
     -   No need to `cd` around. After you have created a git worktree you will be moved into it
@@ -50,11 +50,11 @@ After installing the plugin you can execute **git-fzf help** to check the operat
 
 -   `git-fzf branch`
 
-    Search for both local and remote branches
+    Search for both local and remote branches ([Demo](https://github.com/alexiszamanidis/zsh-git-fzf/blob/master/DEMO.md#branch))
 
 -   `git-fzf checkout`
 
-    Search for a branch and checkout into it
+    Search for a branch and checkout into it ([Demo](https://github.com/alexiszamanidis/zsh-git-fzf/blob/master/DEMO.md#checkout))
 
 -   `git-fzf diff`
 
@@ -122,10 +122,6 @@ git clone --bare [your-repository]
 you-repository-folder/
 - install
 ```
-
-## Demo
-
-![zsh-git-fzf](https://user-images.githubusercontent.com/48658768/147582012-636af175-f296-44c7-b412-8e55117b7931.gif)
 
 ## Contribution
 
