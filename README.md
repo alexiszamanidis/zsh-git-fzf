@@ -106,6 +106,20 @@ After installing the plugin you can execute **git-fzf help** to check the operat
 
     -   Removes all working trees that do not have a corresponding remote repository
 
+## ZSH preferred keybinds
+
+Include the code below in your .zshrc file
+
+```bash
+git-fzf-checkout-bindkey() { echo; git-fzf checkout; zle reset-prompt; }
+zle -N git-fzf-checkout-bindkey
+bindkey '^o' git-fzf-checkout-bindkey
+
+git-fzf-log-bindkey() { git-fzf log; }
+zle -N git-fzf-log-bindkey
+bindkey '^l' git-fzf-log-bindkey
+```
+
 ## Assumptions
 
 This is the first version of the plugin, so you need to make some assumptions to use it
