@@ -126,15 +126,20 @@ This is the first version of the plugin, so you need to make some assumptions to
 
 -   Make sure your working repository is bare
 
-```
+```bash
 git clone --bare [your-repository]
 ```
 
--   If you want to execute a project set-up script after creating a new work tree, you need to add it to your repository as 'install'.
+-   If you want to execute a project set-up script after creating a new work tree, you need to add a function named `zsh_git_fzf_on_worktree_change` into your .bashrc.
 
-```
-you-repository-folder/
-- install
+```bash
+zsh_git_fzf_on_worktree_change() {
+    PWD=$(eval pwd)
+    PROJECT_NAME='PROJECT_NAME'
+    if [[ "$PWD" == *"$PROJECT_NAME"* ]]; then
+        # your code
+    fi
+}
 ```
 
 ## Contribution

@@ -27,6 +27,8 @@ _worktree_list() {
     local WORKTREE_BRANCH=$(echo $WORKTREE | awk '{print $3;}')
 
     pushd $WORKTREE_PATH > /dev/null
+
+    _worktree_set_up
 }
 
 _worktree_prune() {
@@ -165,10 +167,11 @@ _worktree_add() {
     # if there is an installation script, execute it
     # TODO pass installation script as an argument(absolute path?)
     # Is there a git hook for this process?
-    if [ -f $NEW_WORKTREE_PATH/install ]; then
-        chmod +x $NEW_WORKTREE_PATH/install
-        $NEW_WORKTREE_PATH/install
-    fi
+    # Do I need this? I replace it with the _worktree_set_up function
+    # if [ -f $NEW_WORKTREE_PATH/install ]; then
+    #     chmod +x $NEW_WORKTREE_PATH/install
+    #     $NEW_WORKTREE_PATH/install
+    # fi
 
     # if there is a custom editor, open the worktree
     # TODO edge case for vim, which is a terminal editor
@@ -181,6 +184,8 @@ _worktree_add() {
 
     # otherwise move into the worktree
     pushd $NEW_WORKTREE_PATH > /dev/null
+
+    _worktree_set_up
 }
 
 _exists_worktree() {
@@ -268,6 +273,17 @@ _worktree_clean() {
     done
 
     _worktree_prune
+}
+
+_fn_exists() {
+    type $1 >/dev/null 2>&1;
+}
+
+_worktree_set_up() {
+    _fn_exists zsh_git_fzf_on_worktree_change
+    if [ $? -eq 0 ]; then
+        zsh_git_fzf_on_worktree_change
+    fi
 }
 
 _worktree() {
