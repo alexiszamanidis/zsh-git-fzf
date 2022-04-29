@@ -130,14 +130,27 @@ This is the first version of the plugin, so you need to make some assumptions to
 git clone --bare [your-repository]
 ```
 
--   If you want to execute a project set-up script after creating a new work tree, you need to add a function named `zsh_git_fzf_on_worktree_change` into your .bashrc.
+-   If you want to execute a project set-up script after creating a new work tree, you need to add a function named `zsh_git_fzf_on_worktree_change` into your .bashrc(.zshrc, dotfiles, etc).
 
 ```bash
+# Example
+
 zsh_git_fzf_on_worktree_change() {
+    IS_BARE_REPO=$(git rev-parse --is-bare-repository)
+    if [ $IS_BARE_REPO = "true" ]; then
+        return 1
+    fi
+
     PWD=$(eval pwd)
-    PROJECT_NAME='PROJECT_NAME'
-    if [[ "$PWD" == *"$PROJECT_NAME"* ]]; then
-        # your code
+
+    PROJECT_NAME_1='project-name-1'
+    PROJECT_NAME_2='project-name-2'
+    if [[ "$PWD" == *"$PROJECT_NAME_1"* ]]
+    then
+        # code
+    elif [[ "$PWD" == *"$PROJECT_NAME_2"* ]]
+    then
+        # code
     fi
 }
 ```
