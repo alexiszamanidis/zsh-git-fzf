@@ -268,7 +268,7 @@ _worktree_clean() {
         # if the worktree was removed successfully => prune and return
         [ -z $WORKTREE_REMOVE_OUTPUT ] && colorful_echo "Worktree named '$branch' was removed successfully" && continue
 
-        colorful_echo "Worktree named '$branch' was not removed successfully" "RED"
+        colorful_echo "Worktree named '$branch' was not removed" "RED"
         colorful_echo $WORKTREE_REMOVE_OUTPUT "RED"
     done
 
