@@ -96,12 +96,11 @@ _worktree_add() {
         return 1
     fi
 
-    if ! _move_to_bare_repo; then
-        pushd $HOLD_PATH > /dev/null
-        return 1
-    fi
-
     _fetch
+
+    if [ $ZSH_GIT_FZF_REMOVE_STALLED_BRANCHES = "true" ]; then
+        _remove_local_that_do_not_exist_on_remote_repository
+    fi
 
     local BARE_REPO_PATH=$PWD
     local NEW_WORKTREE_PATH=$BARE_REPO_PATH/$BRANCH_NAME
@@ -197,19 +196,6 @@ _exists_worktree() {
     fi
 }
 
-_worktree_fetch() {
-    local HOLD_PATH=$PWD
-
-    if ! _move_to_bare_repo; then
-        pushd $HOLD_PATH > /dev/null
-        return 1
-    fi
-
-    _fetch
-
-    pushd $HOLD_PATH > /dev/null
-}
-
 # TODO: is there a better way to implement this??
 _remove_local_that_do_not_exist_on_remote_repository() {
     git remote update --prune > /dev/null
@@ -220,9 +206,6 @@ _fetch() {
     local REMOTE_ORIGIN_FETCH=$(git config remote.origin.fetch)
     if [ -z $REMOTE_ORIGIN_FETCH ] || [ $REMOTE_ORIGIN_FETCH != "+refs/heads/*:refs/remotes/origin/*" ]; then
         git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
-    fi
-    if [ $ZSH_GIT_FZF_REMOVE_STALLED_BRANCHES = "true" ]; then
-        _remove_local_that_do_not_exist_on_remote_repository
     fi
     git fetch --all --prune > /dev/null
 }
