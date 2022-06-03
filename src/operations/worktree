@@ -80,6 +80,14 @@ _exists_remote_repository() {
     fi
 }
 
+_calculate_new_worktree_path() {
+    local NEW_BRANCH=$1
+    local WORKTREE_PATH=$(git rev-parse --show-toplevel)
+    local BASE_PATH=$(dirname $PWD)
+    local NEW_WORKTREE_PATH="$BASE_PATH/$NEW_BRANCH"
+    echo $NEW_WORKTREE_PATH
+}
+
 _worktree_add() {
     if [[ $# -ne 1 ]] && [[ $# -ne 2 ]]; then
         colorful_echo "Illegal number of parameters" "RED"
@@ -92,7 +100,7 @@ _worktree_add() {
 
     local WORKTREE_EXISTS=$(_exists_worktree $BRANCH_NAME)
     if [ $WORKTREE_EXISTS = "true" ]; then
-        colorful_echo "Worktree named already exists: '$BRANCH_NAME'" "RED"
+        colorful_echo "Worktree named '$BRANCH_NAME' already exists" "RED"
         return 1
     fi
 
@@ -102,83 +110,32 @@ _worktree_add() {
         _remove_local_that_do_not_exist_on_remote_repository
     fi
 
-    local BARE_REPO_PATH=$PWD
-    local NEW_WORKTREE_PATH=$BARE_REPO_PATH/$BRANCH_NAME
+    # remove origin/ prefix from remote branches
+    local REMOTE_BRANCH=$(git branch -r | awk '{print $1}' | sed -e "s/^origin\///" | fzf $FZF_OPTIONS)
 
-    local WORKTREE=""
-    [[ $# -eq 1 ]] && WORKTREE=$(git worktree list | fzf $FZF_OPTIONS)
+    # if the user didn't select a remote branch, we assign the new branch as the remote branch
+    [ -z $REMOTE_BRANCH ] && REMOTE_BRANCH=$BRANCH_NAME
 
-    local BRANCH_EXISTS=$(_exists_remote_repository $BRANCH_NAME)
+    local NEW_WORKTREE_PATH=$(_calculate_new_worktree_path $BRANCH_NAME)
 
-    if [[ $# -eq 1 ]]; then
-        # if the use exited fzf without choosing a worktree, this means that the we want to clone a remote branch
-        if [[ -z $WORKTREE ]]; then
-            if [ $BRANCH_EXISTS = "false" ]; then
-                colorful_echo "Remote branch named: '$BRANCH_NAME' does not exist" "RED"
-                pushd $HOLD_PATH > /dev/null
-                return 1
-            fi
-            colorful_echo "Creating worktree from remote branch"
-            git worktree add $NEW_WORKTREE_PATH
-            git branch --set-upstream-to=origin/$BRANCH_NAME $BRANCH_NAME
-            pushd $NEW_WORKTREE_PATH > /dev/null
-            git pull
-        else
-            # otherwise create a worktree from a local branch
-
-            if [ $BRANCH_EXISTS = "true" ]; then
-                colorful_echo "Remote branch named: '$BRANCH_NAME' already exists" "RED"
-                return 1
-            fi
-
-            colorful_echo "Creating worktree from local branch"
-
-            local WORKTREE_PATH=$(echo $WORKTREE | awk '{print $1;}')
-
-            pushd $WORKTREE_PATH > /dev/null
-
-            git worktree add -b $BRANCH_NAME $NEW_WORKTREE_PATH
-            git push --set-upstream origin $BRANCH_NAME
-        fi
-    fi
-
-    if [[ ! -z $REMOTE_BRANCH_NAME ]] && [[ $# -eq 2 ]]; then
+    if [ $REMOTE_BRANCH = $BRANCH_NAME ]; then
+        git worktree add $NEW_WORKTREE_PATH
+        git branch --set-upstream-to=origin/$BRANCH_NAME $BRANCH_NAME
+        pushd $NEW_WORKTREE_PATH > /dev/null
+        git pull
+    else
+        # if the branches are not the same,
+        # we need to check that the new branch does not exist in the remote repository
+        local BRANCH_EXISTS=$(_exists_remote_repository $BRANCH_NAME)
         if [ $BRANCH_EXISTS = "true" ]; then
-            colorful_echo "Remote branch named: '$BRANCH_NAME' already exists" "RED"
-            pushd $HOLD_PATH > /dev/null
+            colorful_echo "Branch named '$BRANCH_NAME' already exists" "RED"
             return 1
         fi
 
-        local REMOTE_BRANCH_EXISTS=$(_exists_remote_repository $REMOTE_BRANCH_NAME)
-        if [ $REMOTE_BRANCH_EXISTS = "false" ]; then
-            colorful_echo "Remote branch named: '$REMOTE_BRANCH_NAME' does not exist" "RED"
-            pushd $HOLD_PATH > /dev/null
-            return 1
-        fi
-        colorful_echo "Creating worktree from remote branch"
-        git worktree add --track -b $BRANCH_NAME $NEW_WORKTREE_PATH origin/$REMOTE_BRANCH_NAME
+        git worktree add --track -b $BRANCH_NAME $NEW_WORKTREE_PATH origin/$REMOTE_BRANCH
         git push --set-upstream origin $BRANCH_NAME
     fi
 
-    # if there is an installation script, execute it
-    # TODO pass installation script as an argument(absolute path?)
-    # Is there a git hook for this process?
-    # Do I need this? I replace it with the _worktree_set_up function
-    # if [ -f $NEW_WORKTREE_PATH/install ]; then
-    #     chmod +x $NEW_WORKTREE_PATH/install
-    #     $NEW_WORKTREE_PATH/install
-    # fi
-
-    # if there is a custom editor, open the worktree
-    # TODO edge case for vim, which is a terminal editor
-    # Do I actualy need this?? Maybe this command can be included in the installation script!?!
-    # if [ ! -z $EDITOR ]
-    # then
-    #     eval $EDITOR $NEW_WORKTREE_PATH
-    #     return 0
-    # fi
-
-    # otherwise move into the worktree
     pushd $NEW_WORKTREE_PATH > /dev/null
 
     _worktree_set_up
