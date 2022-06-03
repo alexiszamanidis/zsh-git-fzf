@@ -106,6 +106,14 @@ After installing the plugin you can execute **git-fzf help** to check the operat
 
     -   Removes all working trees that do not have a corresponding remote repository
 
+## Properties
+
+You can add the following properties to your .zshrc file:
+
+| Property                            | Type   | Default value | Description                                                 |
+| ----------------------------------- | ------ | ------------- | ----------------------------------------------------------- |
+| ZSH_GIT_FZF_REMOVE_STALLED_BRANCHES | string | false         | Removes local(stalled) branches that do not exist on remote |
+
 ## ZSH preferred keybinds
 
 Include the code below in your .zshrc file

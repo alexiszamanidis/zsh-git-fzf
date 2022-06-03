@@ -221,7 +221,9 @@ _bare_repo_fetch() {
     if [ -z $REMOTE_ORIGIN_FETCH ] || [ $REMOTE_ORIGIN_FETCH != "+refs/heads/*:refs/remotes/origin/*" ]; then
         git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
     fi
-    _remove_local_that_do_not_exist_on_remote_repository
+    if [ $ZSH_GIT_FZF_REMOVE_STALLED_BRANCHES = "true" ]; then
+        _remove_local_that_do_not_exist_on_remote_repository
+    fi
     git fetch --all --prune > /dev/null
 }
 
