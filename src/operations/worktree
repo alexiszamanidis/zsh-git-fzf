@@ -23,8 +23,6 @@ _worktree_list() {
     [ -z $WORKTREE ] && return 0
 
     local WORKTREE_PATH=$(echo $WORKTREE | awk '{print $1;}')
-    local WORKTREE_COMMIT=$(echo $WORKTREE | awk '{print $2;}')
-    local WORKTREE_BRANCH=$(echo $WORKTREE | awk '{print $3;}')
 
     pushd $WORKTREE_PATH > /dev/null
 
