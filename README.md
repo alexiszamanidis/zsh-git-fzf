@@ -12,7 +12,6 @@ A ZSH plugin that wraps git operations for simplicity and productivity. Also, it
 -   git worktree
     -   Simpler API
     -   No need to `cd` around. After you have created a git worktree you will be moved into it
-    -   Easy setup for your project after you create an installation script named `install` in the root folder of the repository
     -   You will never stash your changes again
 
 ## Dependencies
@@ -127,15 +126,7 @@ zle -N git-fzf-log-bindkey
 bindkey '^l' git-fzf-log-bindkey
 ```
 
-## Assumptions
-
-This is the first version of the plugin, so you need to make some assumptions to use it
-
--   Make sure your working repository is bare
-
-```bash
-git clone --bare [your-repository]
-```
+## Worktree on Change Feature
 
 -   If you want to execute a project set-up script after creating a new work tree, you need to add a function named `zsh_git_fzf_on_worktree_change` into your .bashrc(.zshrc, dotfiles, etc).
 
