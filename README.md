@@ -90,8 +90,13 @@ After installing the plugin you can execute **git-fzf help** to check the operat
     **remove**
 
     -   Remove a worktree
+
         -   Run the following command: `git-fzf worktree remove`
         -   After executing the command above, select a working tree from the fzf results and the selected worktree will be removed
+
+        **Restrictions**
+
+        -   You cannot delete the same Worktree as the one you are currently working on
 
     **list**
 

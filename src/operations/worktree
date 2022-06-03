@@ -38,11 +38,14 @@ _worktree_remove() {
     # if the use exited fzf without choosing a worktree
     [ -z $WORKTREE ] && return 0
 
-    local HOLD_PATH=$PWD
+    local CURRENT_PATH=$PWD
     local WORKTREE_PATH=$(echo $WORKTREE | awk '{print $1;}')
     local WORKTREE_BRANCH=$(basename $WORKTREE_PATH)
 
-    [ $HOLD_PATH = $WORKTREE_PATH ] && _move_to_bare_repo
+    if [ $CURRENT_PATH = $WORKTREE_PATH ]; then
+        colorful_echo "You cannot delete the same Worktree as the one you are currently working on" "RED"
+        return 1
+    fi
 
     local WORKTREE_REMOVE_OUTPUT=$(git worktree remove $WORKTREE_BRANCH 2>&1)
 
@@ -54,7 +57,6 @@ _worktree_remove() {
     local UNTRACKED_OR_MODIFIED_FILES="fatal: '$WORKTREE_BRANCH' contains modified or untracked files, use --force to delete it"
 
     if [ $WORKTREE_REMOVE_OUTPUT != $UNTRACKED_OR_MODIFIED_FILES ]; then
-        pushd $HOLD_PATH > /dev/null
         return 0
     fi
 
@@ -65,8 +67,6 @@ _worktree_remove() {
         _worktree_prune
         return 0
     fi
-
-    pushd $HOLD_PATH > /dev/null
 }
 
 _exists_remote_repository() {
