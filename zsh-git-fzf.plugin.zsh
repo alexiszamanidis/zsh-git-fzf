@@ -1,13 +1,13 @@
 #!/usr/bin/env zsh
 
-source ~/.oh-my-zsh/custom/plugins/zsh-git-fzf/src/operations/worktree
-source ~/.oh-my-zsh/custom/plugins/zsh-git-fzf/src/operations/status
-source ~/.oh-my-zsh/custom/plugins/zsh-git-fzf/src/operations/branch
-source ~/.oh-my-zsh/custom/plugins/zsh-git-fzf/src/operations/checkout
-source ~/.oh-my-zsh/custom/plugins/zsh-git-fzf/src/operations/diff
-source ~/.oh-my-zsh/custom/plugins/zsh-git-fzf/src/operations/log
-source ~/.oh-my-zsh/custom/plugins/zsh-git-fzf/src/operations/stash
-source ~/.oh-my-zsh/custom/plugins/zsh-git-fzf/src/operations/reflog
+source "$(dirname "$0")/src/operations/worktree"
+source "$(dirname "$0")/src/operations/status"
+source "$(dirname "$0")/src/operations/branch"
+source "$(dirname "$0")/src/operations/checkout"
+source "$(dirname "$0")/src/operations/diff"
+source "$(dirname "$0")/src/operations/log"
+source "$(dirname "$0")/src/operations/stash"
+source "$(dirname "$0")/src/operations/reflog"
 
 _help() {
     local PREFIX="git-fzf"
