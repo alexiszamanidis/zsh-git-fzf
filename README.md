@@ -76,16 +76,10 @@ After installing the plugin you can execute **git-fzf help** to check the operat
 
     **add**
 
-    -   Checkout new branch from a **remote branch**:
-        -   Run the following command: `git-fzf worktree add [new-branch] [remote-branch(optional)]`
-        -   After executing the command above, you will be moved into the new working tree
-    -   Checkout **remote branch**:
-        -   Run the following command: `git-fzf worktree add [remote-branch]`
-        -   After executing the command above, close the fzf by pressing `ESC` and you will be moved into the new working tree
-    -   Checkout new branch from a **local branch**:
-
+    -   Create a new worktree:
         -   Run the following command: `git-fzf worktree add [new-branch]`
-        -   After executing the command above, select a working tree from the fzf results and you will be moved into the new working tree
+        -   After executing the command above, select a working tree from the fzf results and it will create a new worktree for you checked out from the remote branch you selected
+            -   if you do not select a remote branch(ESC), it will create a new worktree with the new branch you typed. This was made for convenience, instead of having `git worktree add master master`, you can just run `git worktree add master`
 
     **remove**
 
