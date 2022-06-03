@@ -27,7 +27,6 @@ _worktree-operations() {
     operations=(
         "list: List details of each working tree. Press ESC to exit or select a worktree to move into it"
         "prune: Prune working tree information"
-        "fetch: Fetch branches from the bare repository"
         "add: Create new working tree"
         "remove: Remove a working tree"
         "clean: Remove all working trees that do not have a corresponding remote branch"

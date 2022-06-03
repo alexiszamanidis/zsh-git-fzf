@@ -10,7 +10,6 @@ _worktree_help() {
     echo "Worktree Usage:"
     echo -e "\t${PREFIX} list: List details of each working tree. Press ESC to exit or select a worktree to move into it"
     echo -e "\t${PREFIX} prune: Prune working tree information"
-    echo -e "\t${PREFIX} fetch: Fetch branches from the bare repository"
     echo -e "\t${PREFIX} add [new-branch] [remote-branch(optional)]: Create new working tree"
     echo -e "\t${PREFIX} remove: Remove a working tree"
     echo -e "\t${PREFIX} clean: Remove all working trees that do not have a corresponding remote branch"
@@ -303,8 +302,6 @@ _worktree() {
         _worktree_list
     elif [ $OPERATION = "prune" ]; then
         _worktree_prune
-    elif [ $OPERATION = "fetch" ]; then
-        _worktree_fetch
     elif [ $OPERATION = "add" ]; then
         _worktree_add ${@:2} # pass all arguments except the first one(add)
     elif [ $OPERATION = "remove" ]; then
