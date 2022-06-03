@@ -101,7 +101,7 @@ _worktree_add() {
         return 1
     fi
 
-    _bare_repo_fetch
+    _fetch
 
     local BARE_REPO_PATH=$PWD
     local NEW_WORKTREE_PATH=$BARE_REPO_PATH/$BRANCH_NAME
@@ -205,7 +205,7 @@ _worktree_fetch() {
         return 1
     fi
 
-    _bare_repo_fetch
+    _fetch
 
     pushd $HOLD_PATH > /dev/null
 }
@@ -216,7 +216,7 @@ _remove_local_that_do_not_exist_on_remote_repository() {
     git branch -vv | awk '/: gone]/{print $1}' | awk '!/^(*|+)/' | xargs --no-run-if-empty git branch -d > /dev/null
 }
 
-_bare_repo_fetch() {
+_fetch() {
     local REMOTE_ORIGIN_FETCH=$(git config remote.origin.fetch)
     if [ -z $REMOTE_ORIGIN_FETCH ] || [ $REMOTE_ORIGIN_FETCH != "+refs/heads/*:refs/remotes/origin/*" ]; then
         git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
