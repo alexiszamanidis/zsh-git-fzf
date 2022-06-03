@@ -210,17 +210,6 @@ _fetch() {
     git fetch --all --prune > /dev/null
 }
 
-# TODO: is there a better way to implement this??
-_move_to_bare_repo() {
-    local BARE_REPO_PATH=$(eval git worktree list | awk '/\(bare\)/{print $1}')
-
-    [ -z $BARE_REPO_PATH ] && colorful_echo "Bare repository does not exist" "RED" > /dev/stderr && return 1
-
-    # colorful_echo "Found bare repository: $BARE_REPO_PATH"
-    pushd $BARE_REPO_PATH > /dev/null
-    return 0
-}
-
 _worktree_clean() {
     # awk '$3{print $3}!$3{print "(bare)"}' => there is not a 3rd column in bare repo, so we return (bare)
     # sed 's:^.\(.*\).$:\1:' => remove first and last character(e.g. [master] => master)
