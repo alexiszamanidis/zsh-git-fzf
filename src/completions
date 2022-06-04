@@ -13,8 +13,6 @@ _worktree_add_operation_completions() {
 
     [[ "$(_number_of_args)" = "4" ]] && options=("new-branch: The name of the new branch you want to create")
 
-    [[ "$(_number_of_args)" = "5" ]] && options=("remote-branch: The name of the remote branch that we want to check out")
-
     _describe "operations" options
 }
 

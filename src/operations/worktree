@@ -89,8 +89,8 @@ _calculate_new_worktree_path() {
 }
 
 _worktree_add() {
-    if [[ $# -ne 1 ]] && [[ $# -ne 2 ]]; then
-        colorful_echo "Illegal number of parameters" "RED"
+    if [[ $# -ne 1 ]]; then
+        colorful_echo "You should pass the new-branch(E.g. git-fzf worktree add new-branch)" "RED"
         return 1
     fi
 
@@ -119,6 +119,11 @@ _worktree_add() {
     local NEW_WORKTREE_PATH=$(_calculate_new_worktree_path $BRANCH_NAME)
 
     if [ $REMOTE_BRANCH = $BRANCH_NAME ]; then
+        local BRANCH_EXISTS=$(_exists_remote_repository $BRANCH_NAME)
+        if [ $BRANCH_EXISTS = "false" ]; then
+            colorful_echo "Branch named '$BRANCH_NAME' does not exist in the remote repository" "RED"
+            return 1
+        fi
         git worktree add $NEW_WORKTREE_PATH
         git branch --set-upstream-to=origin/$BRANCH_NAME $BRANCH_NAME
         pushd $NEW_WORKTREE_PATH > /dev/null
