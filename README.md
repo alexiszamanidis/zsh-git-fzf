@@ -117,13 +117,9 @@ You can add the following properties to your .zshrc file:
 Include the code below in your .zshrc file
 
 ```bash
-git-fzf-checkout-bindkey() { echo; git-fzf checkout; zle reset-prompt; }
-zle -N git-fzf-checkout-bindkey
-bindkey '^o' git-fzf-checkout-bindkey
-
-git-fzf-log-bindkey() { git-fzf log; }
-zle -N git-fzf-log-bindkey
-bindkey '^l' git-fzf-log-bindkey
+bindkey -s ^o "git-fzf checkout\n"
+bindkey -s ^l "git-fzf log\n"
+bindkey -s ^d "git-fzf diff\n"
 ```
 
 ## Worktree on Change Feature
@@ -160,6 +156,7 @@ zsh_git_fzf_on_worktree_change() {
 -   Writing tests
 -   Sharing this project and recommending it to your friends
 -   Giving a star on this repository
+-   [TODO](https://github.com/alexiszamanidis/zsh-git-fzf/blob/master/TODO.md)
 
 ## License
 
