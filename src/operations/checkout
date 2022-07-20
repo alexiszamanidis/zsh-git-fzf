@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source ~/.oh-my-zsh/custom/plugins/zsh-git-fzf/src/operations/branch
+source "$(dirname "$0")/src/operations/branch"
 
 _checkout() {
     local branch=$(_branch)
