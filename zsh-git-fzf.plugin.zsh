@@ -8,6 +8,7 @@ source "$(dirname "$0")/src/operations/diff"
 source "$(dirname "$0")/src/operations/log"
 source "$(dirname "$0")/src/operations/stash"
 source "$(dirname "$0")/src/operations/reflog"
+source "$(dirname "$0")/src/helpers"
 
 _help() {
     local PREFIX="git-fzf"
