@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source "$(dirname "$0")/../../src/operations/branch"
+source "$(dirname "$0")/branch"
 
 _checkout() {
     local branch=$(_branch)
