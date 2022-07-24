@@ -25,7 +25,7 @@ _worktree_list() {
 
     pushd $WORKTREE_PATH > /dev/null
 
-    _worktree_set_up
+    _worktree_set_up "list"
 }
 
 _worktree_prune() {
@@ -143,7 +143,7 @@ _worktree_add() {
 
     pushd $NEW_WORKTREE_PATH > /dev/null
 
-    _worktree_set_up
+    _worktree_set_up "add"
 }
 
 _exists_worktree() {
@@ -215,7 +215,7 @@ _fn_exists() {
 _worktree_set_up() {
     _fn_exists zsh_git_fzf_on_worktree_change
     if [ $? -eq 0 ]; then
-        zsh_git_fzf_on_worktree_change
+        zsh_git_fzf_on_worktree_change $@
     fi
 }
 
