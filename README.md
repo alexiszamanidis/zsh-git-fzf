@@ -127,8 +127,11 @@ bindkey -s ^d "git-fzf diff\n"
 -   If you want to execute a project set-up script after creating a new work tree or switching to an existing work tree, you need to add a function named `zsh_git_fzf_on_worktree_change` into your .bashrc(.zshrc, dotfiles, etc).
 
 ```bash
-# Example
+# Arguments:
+# - $1: worktree operation
+# - $2: current working directory path
 
+# Example
 zsh_git_fzf_on_worktree_change() {
     IS_BARE_REPO=$(git rev-parse --is-bare-repository)
     if [ $IS_BARE_REPO = "true" ]; then
@@ -144,7 +147,7 @@ zsh_git_fzf_on_worktree_change() {
         # code
     fi
 
-    PWD=$(eval pwd)
+    PWD=$2
 
     PROJECT_NAME_1='project-name-1'
     PROJECT_NAME_2='project-name-2'
