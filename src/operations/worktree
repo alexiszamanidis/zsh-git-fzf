@@ -21,11 +21,12 @@ _worktree_list() {
     # if the use exited fzf without choosing a worktree
     [ -z $WORKTREE ] && return 0
 
+    local CURRENT_PATH=$PWD
     local WORKTREE_PATH=$(echo $WORKTREE | awk '{print $1;}')
 
     pushd $WORKTREE_PATH > /dev/null
 
-    _worktree_set_up "list" $WORKTREE_PATH
+    _worktree_hook "list" $WORKTREE_PATH $CURRENT_PATH
 }
 
 _worktree_prune() {
@@ -50,7 +51,7 @@ _worktree_remove() {
     local WORKTREE_REMOVE_OUTPUT=$(git worktree remove $WORKTREE_BRANCH 2>&1)
 
     # if the worktree was removed successfully => prune and return
-    [ -z $WORKTREE_REMOVE_OUTPUT ] && _worktree_prune && colorful_echo "Worktree named '$WORKTREE_BRANCH' was removed successfully" && return 0
+    [ -z $WORKTREE_REMOVE_OUTPUT ] && _worktree_prune && colorful_echo "Worktree named '$WORKTREE_BRANCH' was removed successfully" && _worktree_hook "remove" $WORKTREE_PATH && return 0
 
     colorful_echo $WORKTREE_REMOVE_OUTPUT "RED"
 
@@ -65,6 +66,7 @@ _worktree_remove() {
     if [[ $response =~ ^(yes|y| ) ]] || [[ -z $response ]]; then
         git worktree remove -f $WORKTREE_BRANCH
         _worktree_prune
+        _worktree_hook "remove" $WORKTREE_PATH
         return 0
     fi
 }
@@ -143,7 +145,7 @@ _worktree_add() {
 
     pushd $NEW_WORKTREE_PATH > /dev/null
 
-    _worktree_set_up "add" $NEW_WORKTREE_PATH
+    _worktree_hook "add" $NEW_WORKTREE_PATH $BRANCH_NAME
 }
 
 _exists_worktree() {
@@ -212,10 +214,10 @@ _fn_exists() {
     type $1 >/dev/null 2>&1;
 }
 
-_worktree_set_up() {
-    _fn_exists zsh_git_fzf_on_worktree_change
+_worktree_hook() {
+    _fn_exists zsh_git_fzf_on_worktree_operation
     if [ $? -eq 0 ]; then
-        zsh_git_fzf_on_worktree_change $@
+        zsh_git_fzf_on_worktree_operation $@
     fi
 }
 

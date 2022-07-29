@@ -122,17 +122,25 @@ bindkey -s ^l "git-fzf log\n"
 bindkey -s ^d "git-fzf diff\n"
 ```
 
-## Worktree on Change Feature
+## Worktree hook
 
--   If you want to execute a project set-up script after creating a new work tree or switching to an existing work tree, you need to add a function named `zsh_git_fzf_on_worktree_change` into your .bashrc(.zshrc, dotfiles, etc).
+-   If you want to execute automatically some code after the execution of a worktree operation(e.g. create a new worktree, then execute a script that sets up your project), you can by adding the function named `zsh_git_fzf_on_worktree_operation` into your .bashrc(.zshrc, dotfiles, etc).
 
 ```bash
-# Arguments:
-# - $1: worktree operation
-# - $2: current working directory path
+# Arguments
+# - $1: worktree operation("add", "remove", "list")
+# Rest arguments based on the worktree operation
+# - "add":
+#   - $2: path where worktree created
+# - "remove":
+#   - $2: path where worktree deleted
+#   - $3: branch name
+# - "list":
+#   - $2: path you switched to
+#   - $3: previous worktree path
 
 # Example
-zsh_git_fzf_on_worktree_change() {
+zsh_git_fzf_on_worktree_operation() {
     IS_BARE_REPO=$(git rev-parse --is-bare-repository)
     if [ $IS_BARE_REPO = "true" ]; then
         return 1
@@ -145,10 +153,12 @@ zsh_git_fzf_on_worktree_change() {
     elif [[ "$WORKTREE_OPERATION" = "add" ]]
     then
         # code
+    elif [[ "$WORKTREE_OPERATION" = "remove" ]]
+    then
+        # code
     fi
 
     PWD=$2
-
     PROJECT_NAME_1='project-name-1'
     PROJECT_NAME_2='project-name-2'
     if [[ "$PWD" == *"$PROJECT_NAME_1"* ]]
