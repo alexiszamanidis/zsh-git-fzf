@@ -4,7 +4,20 @@ A ZSH plugin that wraps git operations for simplicity and productivity. Also, it
 
 **You can find my plugin listed among other useful plugin in the [awesome-zsh-plugins](https://github.com/unixorn/awesome-zsh-plugins) repository!**
 
-### Benefits
+## Table of Contents
+
+-   [Benefits](https://github.com/alexiszamanidis/zsh-git-fzf#benefits)
+-   [Dependencies](https://github.com/alexiszamanidis/zsh-git-fzf#dependencies)
+-   [Installation](https://github.com/alexiszamanidis/zsh-git-fzf#installation)
+-   [Usage](https://github.com/alexiszamanidis/zsh-git-fzf#usage)
+-   [Supported operations](https://github.com/alexiszamanidis/zsh-git-fzf#supported-operations)
+-   [Properties](https://github.com/alexiszamanidis/zsh-git-fzf#properties)
+-   [ZSH preferred keybinds](https://github.com/alexiszamanidis/zsh-git-fzf#zsh-preferred-keybinds)
+-   [Hooks](https://github.com/alexiszamanidis/zsh-git-fzf#hooks)
+-   [Contribution](https://github.com/alexiszamanidis/zsh-git-fzf#contribution)
+-   [License](https://github.com/alexiszamanidis/zsh-git-fzf#license)
+
+## Benefits
 
 -   Interactive
 -   Simplicity and Productivity
@@ -41,7 +54,7 @@ plugins=(... zsh-git-fzf)
 
 3. Restart your shell or reload config file(source ~/.zshrc)
 
-# Usage
+## Usage
 
 After installing the plugin you can execute **git-fzf help** to check the operations that are provided:
 
@@ -104,7 +117,7 @@ After installing the plugin you can execute **git-fzf help** to check the operat
 
     -   Removes all working trees that do not have a corresponding remote repository
 
-## Properties
+### Properties
 
 You can add the following properties to your .zshrc file:
 
@@ -112,7 +125,7 @@ You can add the following properties to your .zshrc file:
 | ----------------------------------- | ------ | ------------- | ----------------------------------------------------------- |
 | ZSH_GIT_FZF_REMOVE_STALLED_BRANCHES | string | false         | Removes local(stalled) branches that do not exist on remote |
 
-## ZSH preferred keybinds
+### ZSH preferred keybinds
 
 Include the code below in your .zshrc file
 
@@ -122,9 +135,42 @@ bindkey -s ^l "git-fzf log\n"
 bindkey -s ^d "git-fzf diff\n"
 ```
 
-## Worktree hook
+### Hooks
 
--   If you want to execute automatically some code after the execution of a worktree operation(e.g. create a new worktree, then execute a script that sets up your project), you can by adding the function named `zsh_git_fzf_on_worktree_operation` into your .bashrc(.zshrc, dotfiles, etc).
+If you want to execute automatically some code after executing any of the operations below, you can by adding each of the following hooks to your .bashrc(.zshrc, dotfiles, etc).
+
+-   `checkout`
+
+```bash
+# Arguments
+# - $1: branch name
+# - $2: current path
+
+# Example
+zsh_git_fzf_on_checkout() {
+    BRANCH_NAME=$1
+    if [[ "$BRANCH_NAME" = "master" ]]
+    then
+        # code
+    elif [[ "$BRANCH_NAME" = "dev" ]]
+    then
+        # code
+    fi
+
+    PWD=$2
+    PROJECT_NAME_1='project-name-1'
+    PROJECT_NAME_2='project-name-2'
+    if [[ "$PWD" == *"$PROJECT_NAME_1"* ]]
+    then
+        # code
+    elif [[ "$PWD" == *"$PROJECT_NAME_2"* ]]
+    then
+        # code
+    fi
+}
+```
+
+-   `worktree`
 
 ```bash
 # Arguments

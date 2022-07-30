@@ -3,13 +3,24 @@
 source "$(dirname "$0")/branch"
 
 _checkout() {
-    local branch=$(_branch)
+    local BRANCH=$(_branch)
 
-    [[ "$branch" = "" ]] && return
+    [[ "$BRANCH" = "" ]] && return
 
-    if [[ "$branch" = 'remotes/'* ]]; then
-        git checkout --track $branch
+    if [[ "$BRANCH" = 'remotes/'* ]]; then
+        git checkout --track $BRANCH
     else
-        git checkout $branch;
+        git checkout $BRANCH;
+    fi
+
+    local CURRENT_PATH=$PWD
+
+    _checkout_hook $BRANCH $PWD
+}
+
+_checkout_hook() {
+    _fn_exists zsh_git_fzf_on_checkout
+    if [ $? -eq 0 ]; then
+        zsh_git_fzf_on_checkout $@
     fi
 }
