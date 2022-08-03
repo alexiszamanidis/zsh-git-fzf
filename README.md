@@ -178,9 +178,9 @@ zsh_git_fzf_on_checkout() {
 # Rest arguments based on the worktree operation
 # - "add":
 #   - $2: path where worktree created
+#   - $3: branch name
 # - "remove":
 #   - $2: path where worktree deleted
-#   - $3: branch name
 # - "list":
 #   - $2: path you switched to
 #   - $3: previous worktree path
