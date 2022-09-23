@@ -82,10 +82,21 @@ _exists_remote_repository() {
     fi
 }
 
+_is_bare_repository() {
+    local IS_BARE_REPO=$(git rev-parse --is-bare-repository)
+    echo $IS_BARE_REPO
+}
+
 _calculate_new_worktree_path() {
     local NEW_BRANCH=$1
-    local WORKTREE_PATH=$(git rev-parse --show-toplevel)
-    local BASE_PATH=$(dirname $PWD)
+    local BASE_PATH=$PWD
+
+    local IS_BARE_REPO=$(_is_bare_repository)
+    if [ $IS_BARE_REPO = "false" ]; then
+        local TOP_LEVEL_PATH=$(git rev-parse --show-toplevel)
+        BASE_PATH=$(dirname $TOP_LEVEL_PATH)
+    fi
+
     local NEW_WORKTREE_PATH="$BASE_PATH/$NEW_BRANCH"
     echo $NEW_WORKTREE_PATH
 }
