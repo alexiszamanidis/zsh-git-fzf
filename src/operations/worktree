@@ -137,8 +137,7 @@ _worktree_add() {
             colorful_echo "Branch named '$BRANCH_NAME' does not exist in the remote repository" "RED"
             return 1
         fi
-        git worktree add $NEW_WORKTREE_PATH
-        git branch --set-upstream-to=origin/$BRANCH_NAME $BRANCH_NAME
+        git worktree add $NEW_WORKTREE_PATH $BRANCH_NAME
         pushd $NEW_WORKTREE_PATH > /dev/null
         git pull
     else
