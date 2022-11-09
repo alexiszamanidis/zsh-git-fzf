@@ -1,24 +1,15 @@
 #!/usr/bin/env zsh
 
 _operation() {
-  echo "${words[2]}"
+    echo "${words[2]}"
 }
 
 _number_of_args() {
-  echo "$#words"
-}
-
-_worktree_add_operation_completions() {
-    local options
-
-    [[ "$(_number_of_args)" = "4" ]] && options=("new-branch: The name of the new branch you want to create")
-
-    _describe "operations" options
+    echo "$#words"
 }
 
 _worktree-operations() {
-    # git-fzf worktree add
-    [[ "$(_number_of_args)" -ge "4" ]] && [[ "${words[3]}" = "add" ]] && _worktree_add_operation_completions && return
+    [[ "$(_number_of_args)" -ge "4" ]] && return
 
     local operations
 
@@ -54,8 +45,8 @@ _git-fzf-operations() {
 _git-fzf() {
     case "$(_operation)" in
         worktree)
-        _worktree-operations
-        ;;
+            _worktree-operations
+            ;;
     esac
 
     [[ "$(_number_of_args)" = "2" ]] &&  _git-fzf-operations

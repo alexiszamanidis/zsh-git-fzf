@@ -2,3 +2,4 @@
 -   Issue with the installation of the dependencies(e.g. node_modules). Should I include 'npm/yarn install' in the installation script? Is there a way to copy fast the node_modules(e.g. file links? - if I change a dependency with a hard link all the dependencies will be changed)?
 -   Add tests
 -   Add more DEMO Gifs
+-   Add debug flag variable

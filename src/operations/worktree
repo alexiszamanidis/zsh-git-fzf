@@ -102,20 +102,7 @@ _calculate_new_worktree_path() {
 }
 
 _worktree_add() {
-    if [[ $# -ne 1 ]]; then
-        colorful_echo "You should pass the new-branch(E.g. git-fzf worktree add new-branch)" "RED"
-        return 1
-    fi
-
-    local HOLD_PATH=$PWD
-    local BRANCH_NAME=$1
-    local REMOTE_BRANCH_NAME=$2
-
-    local WORKTREE_EXISTS=$(_exists_worktree $BRANCH_NAME)
-    if [ $WORKTREE_EXISTS = "true" ]; then
-        colorful_echo "Worktree named '$BRANCH_NAME' already exists" "RED"
-        return 1
-    fi
+    echo "Calculating remote branches to suggest you..."
 
     _fetch
 
@@ -124,39 +111,53 @@ _worktree_add() {
     fi
 
     # remove origin/ prefix from remote branches
-    local REMOTE_BRANCH=$(git branch -r | awk '{print $1}' | sed -e "s/^origin\///" | fzf $FZF_OPTIONS)
+    local REMOTE_BRANCH=$(git branch -r | awk '{print $1}' | sed -e "s/^origin\///" | grep -v "HEAD" | fzf $FZF_OPTIONS)
+    # if the use exited fzf without choosing a worktree
+    [ -z $REMOTE_BRANCH ] && return 0
 
-    # if the user didn't select a remote branch, we assign the new branch as the remote branch
-    [ -z $REMOTE_BRANCH ] && REMOTE_BRANCH=$BRANCH_NAME
+    echo -n "Type the name of the new branch: "
+    read NEW_BRANCH
 
-    local NEW_WORKTREE_PATH=$(_calculate_new_worktree_path $BRANCH_NAME)
+    # if the user didn't select a branch, we assign the remote branch as the new branch
+    [ -z $NEW_BRANCH ] && NEW_BRANCH=$REMOTE_BRANCH
 
-    if [ $REMOTE_BRANCH = $BRANCH_NAME ]; then
-        local BRANCH_EXISTS=$(_exists_remote_repository $BRANCH_NAME)
+    local WORKTREE_EXISTS=$(_exists_worktree $NEW_BRANCH)
+    if [ $WORKTREE_EXISTS = "true" ]; then
+        colorful_echo "Worktree '$NEW_BRANCH' already exists" "RED"
+        return 1
+    fi
+
+    echo "\nRemote branch: $REMOTE_BRANCH"
+    echo "New branch: $NEW_BRANCH\n"
+
+    local NEW_WORKTREE_PATH=$(_calculate_new_worktree_path $NEW_BRANCH)
+
+    if [ $REMOTE_BRANCH = $NEW_BRANCH ]; then
+        local BRANCH_EXISTS=$(_exists_remote_repository $NEW_BRANCH)
         if [ $BRANCH_EXISTS = "false" ]; then
-            colorful_echo "Branch named '$BRANCH_NAME' does not exist in the remote repository" "RED"
+            colorful_echo "Branch named '$NEW_BRANCH' does not exist in the remote repository" "RED"
             return 1
         fi
         git worktree add $NEW_WORKTREE_PATH
-        git branch --set-upstream-to=origin/$BRANCH_NAME $BRANCH_NAME
+        git branch --set-upstream-to=origin/$NEW_BRANCH $BRANCH_NAME
         pushd $NEW_WORKTREE_PATH > /dev/null
         git pull
     else
         # if the branches are not the same,
         # we need to check that the new branch does not exist in the remote repository
-        local BRANCH_EXISTS=$(_exists_remote_repository $BRANCH_NAME)
+        local BRANCH_EXISTS=$(_exists_remote_repository $NEW_BRANCH)
         if [ $BRANCH_EXISTS = "true" ]; then
-            colorful_echo "Branch named '$BRANCH_NAME' already exists" "RED"
+            colorful_echo "Branch named '$NEW_BRANCH' already exists" "RED"
             return 1
         fi
 
-        git worktree add --track -b $BRANCH_NAME $NEW_WORKTREE_PATH origin/$REMOTE_BRANCH
-        git push --set-upstream origin $BRANCH_NAME
+        git worktree add --track -b $NEW_BRANCH $NEW_WORKTREE_PATH origin/$REMOTE_BRANCH
+        git push --set-upstream origin $NEW_BRANCH
+        pushd $NEW_WORKTREE_PATH > /dev/null
     fi
 
-    pushd $NEW_WORKTREE_PATH > /dev/null
 
-    _worktree_hook "add" $NEW_WORKTREE_PATH $BRANCH_NAME
+    _worktree_hook "add" $NEW_WORKTREE_PATH $NEW_BRANCH
 }
 
 _exists_worktree() {

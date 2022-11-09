@@ -89,9 +89,9 @@ After installing the plugin you can execute **git-fzf help** to check the operat
     **add**
 
     -   Create a new worktree:
-        -   Run the following command: `git-fzf worktree add [new-branch]`
+        -   Run the following command: `git-fzf worktree add`
         -   After executing the command above, select a working tree from the fzf results and it will create a new worktree for you checked out from the remote branch you selected
-            -   if you do not select a remote branch(ESC), it will create a new worktree with the new branch you typed. This was made for convenience, instead of having `git worktree add master master`, you can just run `git worktree add master`
+            -   if you do not select a new branch(ENTER), it will create a new worktree with the remote branch you typed. This was made for convenience, instead of having `git worktree add master master`, you can just run `git worktree add master`
 
     **remove**
 
