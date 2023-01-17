@@ -5,6 +5,10 @@ source "$(dirname "$0")/../completions"
 
 local FZF_OPTIONS="--no-preview"
 
+_is_branch_valid() {
+
+}
+
 _worktree_help() {
     local PREFIX="git-fzf worktree"
     echo "Worktree Usage:"
